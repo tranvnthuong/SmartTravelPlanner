@@ -1,0 +1,154 @@
+{% extends "layout.html" %}
+{% block title %}{{ _('index.title') }}{% endblock %}
+
+{% block content %}
+<section class="hero-section text-white">
+    <div class="container py-5">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-7">
+                <span class="badge hero-badge mb-3">{{ _('index.badge') }}</span>
+                <h1 class="display-4 fw-bold mb-3">{{ _('index.hero.title') }}</h1>
+                <p class="lead hero-sub">{{ _('index.hero.subtitle') }}</p>
+                <div class="d-flex flex-wrap gap-3 mt-4">
+                    <div class="stat-pill"><i class="bi bi-geo-alt"></i> {{ _('index.stat.cities') }}</div>
+                    <div class="stat-pill"><i class="bi bi-pin-map"></i> {{ _('index.stat.places') }}</div>
+                    <div class="stat-pill"><i class="bi bi-cpu"></i> {{ _('index.stat.no_api') }}</div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="hero-card p-4">
+                    <h5 class="mb-3"><i class="bi bi-stars text-warning"></i> {{ _('index.ml.title') }}</h5>
+                    <ul class="list-unstyled mb-0 hero-features">
+                        <li><i class="bi bi-check-circle-fill"></i> {{ _('index.ml.tfidf') }}</li>
+                        <li><i class="bi bi-check-circle-fill"></i> {{ _('index.ml.route') }}</li>
+                        <li><i class="bi bi-check-circle-fill"></i> {{ _('index.ml.budget') }}</li>
+                        <li><i class="bi bi-check-circle-fill"></i> {{ _('index.ml.persona') }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="planner" class="py-5 bg-light-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold section-title">{{ _('form.section.title') }}</h2>
+            <p class="text-muted">{{ _('form.section.subtitle') }}</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-7">
+                <div class="card planner-card shadow-sm border-0">
+                    <div class="card-body p-4">
+                        <form id="tripForm" action="{{ url_for('generate_plan') }}" method="POST">
+                            <input type="hidden" name="regenerate_seed" id="regenerateSeed" value="0">
+
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">{{ _('form.city') }}</label>
+                                    <select name="city" class="form-select" required>
+                                        <option value="">{{ _('form.city.placeholder') }}</option>
+                                        {% for c in cities %}
+                                        <option value="{{ c }}">{{ c }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label fw-semibold">{{ _('form.days') }}</label>
+                                    <input type="number" name="num_days" class="form-select" min="1" max="14" value="3" required>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label fw-semibold">{{ _('form.style') }}</label>
+                                    <select name="style" class="form-select" required>
+                                        {% for s in styles %}
+                                        <option value="{{ s }}" {% if s == 'normal' %}selected{% endif %}>{{ s|t_style }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label fw-semibold">{{ _('form.budget') }}</label>
+                                    <input type="number" name="budget" class="form-control" min="500000" step="100000" value="10000000" required>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label fw-semibold">{{ _('form.interests') }}</label>
+                                    <div class="interest-grid">
+                                        {% for interest in interests %}
+                                        <label class="interest-chip">
+                                            <input type="checkbox" name="interests" value="{{ interest }}">
+                                            <span>{{ interest|t_interest }}</span>
+                                        </label>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex flex-wrap gap-2 mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg px-4" id="submitBtn">
+                                    <i class="bi bi-magic"></i> {{ _('form.submit') }}
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary" id="previewBtn">
+                                    <i class="bi bi-eye"></i> {{ _('form.preview') }}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="card preview-card shadow-sm border-0 h-100">
+                    <div class="card-header bg-transparent border-0 pt-4 px-4">
+                        <h5 class="mb-0"><i class="bi bi-lightning-charge text-primary"></i> {{ _('form.preview') }}</h5>
+                    </div>
+                    <div class="card-body px-4" id="previewPanel">
+                        <p class="text-muted">{{ _('form.preview.hint') }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div id="loadingOverlay" class="loading-overlay d-none">
+    <div class="loading-content text-center">
+        <div class="spinner-border text-light mb-3" style="width:3rem;height:3rem;"></div>
+        <h5 class="text-white" id="loadingTitle">{{ _('form.loading.title') }}</h5>
+        <p class="text-white-50 small" id="loadingSubtitle">{{ _('form.loading.subtitle') }}</p>
+    </div>
+</div>
+
+<section id="features" class="py-5">
+    <div class="container">
+        <h2 class="fw-bold text-center mb-5 section-title">{{ _('features.title') }}</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-box text-center p-4 h-100">
+                    <div class="feature-icon mb-3"><i class="bi bi-funnel"></i></div>
+                    <h5>{{ _('features.filter.title') }}</h5>
+                    <p class="text-muted small">{{ _('features.filter.desc') }}</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-box text-center p-4 h-100">
+                    <div class="feature-icon mb-3"><i class="bi bi-diagram-3"></i></div>
+                    <h5>{{ _('features.route.title') }}</h5>
+                    <p class="text-muted small">{{ _('features.route.desc') }}</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-box text-center p-4 h-100">
+                    <div class="feature-icon mb-3"><i class="bi bi-cash-stack"></i></div>
+                    <h5>{{ _('features.budget.title') }}</h5>
+                    <p class="text-muted small">{{ _('features.budget.desc') }}</p>
+                </div>
+            </div>
+        </div>
+        {% if stats.total_trips > 0 %}
+        <p class="text-center text-muted mt-4 small">
+            <i class="bi bi-graph-up"></i> {{ _('features.stats', count=stats.total_trips) }}
+        </p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

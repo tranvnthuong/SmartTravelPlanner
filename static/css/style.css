@@ -1,0 +1,459 @@
+/* Smart Travel Planner — Ocean blue theme with linear gradients */
+:root {
+    /* Ocean blue palette */
+    --ocean-deep: #023e8a;
+    --ocean-dark: #0077b6;
+    --ocean-mid: #0096c7;
+    --ocean-bright: #00b4d8;
+    --ocean-light: #48cae4;
+    --ocean-sky: #90e0ef;
+    --ocean-foam: #caf0f8;
+
+    --primary: #0077b6;
+    --primary-dark: #023e8a;
+    --accent: #00b4d8;
+    --hero-start: #023e8a;
+    --hero-mid: #0077b6;
+    --hero-end: #00b4d8;
+    --hero-glow: #48cae4;
+    --sand: #f0f9ff;
+    --card-radius: 16px;
+    --shadow: 0 8px 30px rgba(2, 62, 138, 0.1);
+    --gradient-main: linear-gradient(135deg, var(--hero-start) 0%, var(--hero-mid) 45%, var(--hero-end) 100%);
+    --gradient-soft: linear-gradient(135deg, var(--ocean-dark), var(--ocean-bright));
+
+    /* Bootstrap 5 overrides */
+    --bs-primary: #0077b6;
+    --bs-primary-rgb: 0, 119, 182;
+    --bs-link-color: #0077b6;
+    --bs-link-hover-color: #023e8a;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+    background: linear-gradient(180deg, #f8fcff 0%, #f0f9ff 100%);
+    color: #0f2942;
+}
+
+/* Navbar */
+.glass-nav {
+    background: var(--gradient-main);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow);
+}
+
+.navbar-brand {
+    letter-spacing: -0.02em;
+}
+
+/* Language switcher */
+.lang-switcher {
+    display: inline-flex;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50px;
+    padding: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.lang-btn {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: background 0.2s, color 0.2s;
+}
+
+.lang-btn:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.lang-btn.active {
+    background: #fff;
+    color: var(--hero-start);
+}
+
+/* Hero */
+.hero-section {
+    background: linear-gradient(
+        135deg,
+        var(--hero-start) 0%,
+        var(--hero-mid) 40%,
+        var(--hero-end) 72%,
+        var(--hero-glow) 100%
+    );
+    min-height: 380px;
+}
+
+.hero-badge {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-weight: 600;
+    padding: 0.5em 1em;
+}
+
+.hero-sub {
+    opacity: 0.92;
+    max-width: 540px;
+}
+
+.hero-card {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: var(--card-radius);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #fff;
+}
+
+.hero-features li {
+    padding: 0.35rem 0;
+}
+
+.hero-features i {
+    color: var(--ocean-sky);
+    margin-right: 0.5rem;
+}
+
+.stat-pill {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-size: 0.9rem;
+}
+
+.bg-light-section {
+    background: var(--sand);
+}
+
+.section-title {
+    color: var(--hero-start);
+}
+
+/* Planner form */
+.planner-card,
+.preview-card {
+    border-radius: var(--card-radius);
+}
+
+.interest-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.interest-chip {
+    cursor: pointer;
+    margin: 0;
+}
+
+.interest-chip input {
+    display: none;
+}
+
+.interest-chip span {
+    display: inline-block;
+    padding: 0.45rem 1rem;
+    border-radius: 50px;
+    border: 2px solid #e2e8f0;
+    background: #fff;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.interest-chip input:checked + span {
+    background: var(--gradient-soft);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 4px 14px rgba(0, 119, 182, 0.35);
+}
+
+.btn-primary {
+    background: var(--gradient-soft);
+    border: none;
+    box-shadow: 0 4px 16px rgba(0, 119, 182, 0.3);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background: linear-gradient(135deg, var(--primary-dark), var(--ocean-mid));
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(2, 62, 138, 0.35);
+}
+
+.btn-outline-primary {
+    color: var(--ocean-dark);
+    border-color: var(--ocean-bright);
+}
+
+.btn-outline-primary:hover {
+    background: var(--gradient-soft);
+    border-color: transparent;
+    color: #fff;
+}
+
+.btn-outline-secondary:hover {
+    border-color: var(--ocean-bright);
+    color: var(--ocean-dark);
+}
+
+/* Feature boxes */
+.feature-box {
+    background: #fff;
+    border-radius: var(--card-radius);
+    box-shadow: var(--shadow);
+    transition: transform 0.2s;
+}
+
+.feature-box:hover {
+    transform: translateY(-4px);
+}
+
+.feature-icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, var(--ocean-foam), var(--ocean-sky));
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--ocean-dark);
+}
+
+/* Loading overlay */
+.loading-overlay {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(2, 62, 138, 0.92),
+        rgba(0, 119, 182, 0.88)
+    );
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loading-content {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* Preview panel */
+.preview-place {
+    padding: 0.75rem;
+    border-radius: 10px;
+    background: #f1f5f9;
+    margin-bottom: 0.5rem;
+}
+
+.preview-place h6 {
+    margin-bottom: 0.25rem;
+    font-size: 0.9rem;
+}
+
+/* Result page */
+.result-hero {
+    background: var(--gradient-main);
+}
+
+.trip-score-badge {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 1rem 1.5rem;
+    border-radius: var(--card-radius);
+    text-align: center;
+    color: #fff;
+}
+
+.trip-score-badge .label {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    opacity: 0.85;
+}
+
+.trip-score-badge .score {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.dash-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: #fff;
+    padding: 1.25rem;
+    border-radius: var(--card-radius);
+    box-shadow: var(--shadow);
+    height: 100%;
+}
+
+.dash-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
+.chart-card {
+    border-radius: var(--card-radius);
+}
+
+/* Travel cards */
+.travel-card {
+    background: #fff;
+    border-radius: var(--card-radius);
+    padding: 1.25rem;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-left: 4px solid var(--accent);
+}
+
+.travel-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+}
+
+.travel-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.category-tag {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--ocean-foam), #e0f7ff);
+    color: var(--ocean-dark);
+    padding: 0.2rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.rating-badge {
+    color: #f59e0b;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.travel-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    font-size: 0.8rem;
+    color: #64748b;
+}
+
+.score-tag {
+    background: linear-gradient(135deg, var(--ocean-foam), #e0f7ff);
+    color: var(--ocean-dark);
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+/* Timeline */
+.timeline-day {
+    position: relative;
+}
+
+.day-header {
+    margin-bottom: 1rem;
+}
+
+.day-number {
+    display: inline-block;
+    background: var(--gradient-soft);
+    color: #fff;
+    font-weight: 700;
+    padding: 0.5rem 1.25rem;
+    border-radius: 50px;
+    font-size: 1.1rem;
+}
+
+.timeline {
+    position: relative;
+    padding-left: 2rem;
+    border-left: 3px solid var(--ocean-sky);
+    margin-left: 1rem;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: -2.35rem;
+    top: 1.25rem;
+    width: 14px;
+    height: 14px;
+    background: var(--accent);
+    border: 3px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 0 3px var(--hero-end);
+}
+
+.timeline-content {
+    border-radius: var(--card-radius);
+    margin-left: 0.5rem;
+}
+
+.period-badge {
+    background: linear-gradient(135deg, var(--ocean-foam), var(--ocean-sky));
+    color: var(--ocean-deep);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+}
+
+.footer {
+    background: linear-gradient(180deg, #fff 0%, var(--ocean-foam) 100%);
+    border-top: 1px solid rgba(144, 224, 239, 0.6);
+}
+
+.text-primary {
+    color: var(--ocean-dark) !important;
+}
+
+.preview-card .text-primary,
+.card-header .text-primary {
+    color: var(--ocean-dark) !important;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .hero-section {
+        min-height: auto;
+    }
+    .display-4 {
+        font-size: 2rem;
+    }
+    .timeline {
+        padding-left: 1.5rem;
+        margin-left: 0.5rem;
+    }
+}

@@ -1,0 +1,121 @@
+id,name,city,category,rating,estimated_cost,duration_hours,popularity,tags,description,latitude,longitude
+1,Pine Forest Trail Premium - Da,Da Lat,nature,4.6,64196,2.7,0.77,"nature,adventure,photography",Scenic natural spot ideal for hiking and fresh air experiences.,12.003149,108.39221
+2,Central Market - Da,Da Lat,shopping,4.3,49123,1.4,0.32,"shopping,souvenir,local","Bustling market area for souvenirs, crafts, and local products.",11.892214,108.482282
+3,Fashion District Old Town - Da,Da Lat,shopping,4.8,308944,1.6,0.83,"shopping,souvenir,local","Bustling market area for souvenirs, crafts, and local products.",11.885945,108.445918
+4,Neon District Central - Da,Da Lat,nightlife,3.6,500290,2.7,0.37,"nightlife,entertainment,social","Vibrant evening venue with music, drinks, and city atmosphere.",11.995999,108.474896
+5,Heritage Roastery Riverside - Da,Da Lat,cafe,4.1,46361,2.0,0.69,"cafe,relax,photography",Cozy café perfect for coffee lovers and relaxed mornings.,11.993105,108.477263
+6,Hidden Cove Central - Da,Da Lat,beach,4.5,184699,2.3,0.84,"beach,nature,photography","Beautiful coastal area for swimming, sunbathing, and water activities.",12.018035,108.515151
+7,Misty Hills Premium - Da,Da Lat,nature,4.0,118858,3.9,0.56,"nature,adventure,photography",Scenic natural spot ideal for hiking and fresh air experiences.,11.893921,108.421016
+8,Mountain Lookout Central - Da,Da Lat,nature,3.7,140021,4.2,0.57,"nature,adventure,photography",Scenic natural spot ideal for hiking and fresh air experiences.,12.018724,108.4807
+9,Riverside Dining - Da,Da Lat,food,4.7,170087,2.2,0.58,"food,local,culture",Authentic local cuisine destination loved by food enthusiasts.,11.87099,108.524402
+10,Island Hop Point Old Town - Da,Da Lat,beach,4.5,103712,5.5,0.4,"beach,nature,photography","Beautiful coastal area for swimming, sunbathing, and water activities.",11.882741,108.497498
+11,Urban Night Walk Old Town - Da,Da Lat,nightlife,4.0,570717,3.2,1.0,"nightlife,entertainment,social","Vibrant evening venue with music, drinks, and city atmosphere.",11.882533,108.457263
+12,The Married Beans Central - Da,Da Lat,cafe,4.5,112240,0.7,0.72,"cafe,relax,photography",Cozy café perfect for coffee lovers and relaxed mornings.,11.921963,108.473642
+13,Cable Car Adventure Premium - Da,Da Lat,adventure,3.5,730099,5.4,0.8,"adventure,thrill,nature",Thrilling outdoor activity for adrenaline seekers and explorers.,11.969474,108.464215
+14,Night Bazaar - Da,Da Lat,nightlife,4.2,253878,2.9,0.97,"nightlife,entertainment,social","Vibrant evening venue with music, drinks, and city atmosphere.",12.000536,108.420442
+15,Colonial Archive - Da,Da Lat,museum,4.5,101959,1.9,0.73,"museum,culture,history",Cultural landmark showcasing local history and art collections.,11.884854,108.500302
+16,Artisan Latte House Premium - Da,Da Lat,cafe,4.9,94042,0.5,0.92,"cafe,relax,photography",Cozy café perfect for coffee lovers and relaxed mornings.,11.993466,108.427502
+17,Cong Caphe Riverside - Da,Da Lat,cafe,4.2,40322,0.6,0.35,"cafe,relax,photography",Cozy café perfect for coffee lovers and relaxed mornings.,11.982096,108.500834
+18,Cultural Pavilion Riverside - Da,Da Lat,museum,4.8,41643,1.9,0.6,"museum,culture,history",Cultural landmark showcasing local history and art collections.,11.894288,108.464587
+19,BBQ Garden Old Town - Da,Da Lat,food,4.8,390723,1.6,0.62,"food,local,culture",Authentic local cuisine destination loved by food enthusiasts.,11.900065,108.388544
+20,Artisan Latte House Riverside - Da,Da Lat,cafe,3.5,60161,1.4,0.8,"cafe,relax,photography",Cozy café perfect for coffee lovers and relaxed mornings.,11.86982,108.389084
+21,Morning Brew - Da,Da Lat,cafe,4.5,97391,0.9,0.45,"cafe,relax,photography",Cozy café perfect for coffee lovers and relaxed mornings.,11.88157,108.527982
+22,ATV Trail Old Town - Da,Da Lat,adventure,3.6,576833,2.8,0.6,"adventure,thrill,nature",Thrilling outdoor activity for adrenaline seekers and explorers.,11.928173,108.453024
+23,The Married Beans - Da,Da Lat,cafe,4.7,82772,1.6,0.38,"cafe,relax,photography",Cozy café perfect for coffee lovers and relaxed mornings.,11.891054,108.464106
+24,Science Discovery Central - Da,Da Lat,museum,4.8,56509,2.2,0.35,"museum,culture,history",Cultural landmark showcasing local history and art collections.,11.989684,108.515255
+25,Pine Forest Trail Riverside - Ho,Ho Chi Minh,nature,4.9,3868,4.9,0.89,"nature,adventure,photography",Scenic natural spot ideal for hiking and fresh air experiences.,10.76971,106.627403
+26,Traditional Kitchen - Ho,Ho Chi Minh,food,5.0,136317,1.6,0.49,"food,local,culture",Authentic local cuisine destination loved by food enthusiasts.,10.868551,106.622501
+27,Modern Plaza Old Town - Ho,Ho Chi Minh,shopping,3.8,81158,1.4,0.34,"shopping,souvenir,local","Bustling market area for souvenirs, crafts, and local products.",10.860818,106.559453
+28,Golden Sand Beach - Ho,Ho Chi Minh,beach,4.9,153138,3.9,0.67,"beach,nature,photography","Beautiful coastal area for swimming, sunbathing, and water activities.",10.752201,106.630953
+29,Fine Arts Gallery Riverside - Ho,Ho Chi Minh,museum,3.9,28907,2.5,0.38,"museum,culture,history",Cultural landmark showcasing local history and art collections.,10.885546,106.589094
+30,Artisan Latte House - Ho,Ho Chi Minh,cafe,4.3,84948,1.5,0.52,"cafe,relax,photography",Cozy café perfect for coffee lovers and relaxed mornings.,10.784823,106.656856
+31,Island Hop Point Premium - Ho,Ho Chi Minh,beach,4.5,103752,2.5,0.62,"beach,nature,photography","Beautiful coastal area for swimming, sunbathing, and water activities.",10.891743,106.699417
+32,Heritage Roastery Riverside - Ho,Ho Chi Minh,cafe,3.6,103792,2.0,0.45,"cafe,relax,photography",Cozy café perfect for coffee lovers and relaxed mornings.,10.785532,106.699022
+33,Botanical Garden Premium - Ho,Ho Chi Minh,nature,4.8,74707,2.5,0.79,"nature,adventure,photography",Scenic natural spot ideal for hiking and fresh air experiences.,10.840968,106.707657
+34,Garden Sip Premium - Ho,Ho Chi Minh,cafe,4.8,116951,0.7,0.49,"cafe,relax,photography",Cozy café perfect for coffee lovers and relaxed mornings.,10.885454,106.668487
+35,Contemporary Art Space Premium - Ho,Ho Chi Minh,museum,4.0,99276,1.8,0.78,"museum,culture,history",Cultural landmark showcasing local history and art collections.,10.879566,106.630565
+36,Sky Lounge Bar - Ho,Ho Chi Minh,nightlife,3.9,432547,2.8,0.3,"nightlife,entertainment,social","Vibrant evening venue with music, drinks, and city atmosphere.",10.866479,106.651638
+37,Neon District Old Town - Ho,Ho Chi Minh,nightlife,4.3,389239,3.4,0.38,"nightlife,entertainment,social","Vibrant evening venue with music, drinks, and city atmosphere.",10.894308,106.660263
+38,Colonial Archive - Ho,Ho Chi Minh,museum,3.7,68393,2.4,0.39,"museum,culture,history",Cultural landmark showcasing local history and art collections.,10.792421,106.693537
+39,Morning Brew Central - Ho,Ho Chi Minh,cafe,3.7,119399,0.9,0.85,"cafe,relax,photography",Cozy café perfect for coffee lovers and relaxed mornings.,10.884562,106.61472
+40,Ethnology Center Central - Ho,Ho Chi Minh,museum,3.5,43206,2.8,0.82,"museum,culture,history",Cultural landmark showcasing local history and art collections.,10.79625,106.698631
+41,BBQ Garden Central - Ho,Ho Chi Minh,food,3.6,106673,1.6,0.63,"food,local,culture",Authentic local cuisine destination loved by food enthusiasts.,10.775032,106.696652
+42,Snorkel Cove Central - Ho,Ho Chi Minh,beach,3.8,58438,2.1,0.53,"beach,nature,photography","Beautiful coastal area for swimming, sunbathing, and water activities.",10.881396,106.704402
+43,Night Bazaar Riverside - Ho,Ho Chi Minh,nightlife,4.8,309546,3.4,0.53,"nightlife,entertainment,social","Vibrant evening venue with music, drinks, and city atmosphere.",10.747516,106.690026
+44,Neon District Riverside - Ho,Ho Chi Minh,nightlife,4.4,239180,2.1,0.54,"nightlife,entertainment,social","Vibrant evening venue with music, drinks, and city atmosphere.",10.868929,106.619523
+45,Misty Hills Riverside - Ho,Ho Chi Minh,nature,4.6,49828,2.8,0.3,"nature,adventure,photography",Scenic natural spot ideal for hiking and fresh air experiences.,10.891192,106.635852
+46,Riverside Dining Old Town - Ho,Ho Chi Minh,food,4.9,86686,2.4,0.74,"food,local,culture",Authentic local cuisine destination loved by food enthusiasts.,10.849242,106.56964
+47,Cocktail Harbor Premium - Ho,Ho Chi Minh,nightlife,4.1,449643,2.8,0.51,"nightlife,entertainment,social","Vibrant evening venue with music, drinks, and city atmosphere.",10.763466,106.616971
+48,Craft Village Riverside - Ho,Ho Chi Minh,shopping,4.3,298375,1.6,0.3,"shopping,souvenir,local","Bustling market area for souvenirs, crafts, and local products.",10.789006,106.618482
+49,Coastal Promenade Old Town - Ha,Ha Noi,beach,4.3,115909,4.7,0.86,"beach,nature,photography","Beautiful coastal area for swimming, sunbathing, and water activities.",21.102073,105.891954
+50,Lake View Park Riverside - Ha,Ha Noi,nature,4.0,174025,3.9,0.87,"nature,adventure,photography",Scenic natural spot ideal for hiking and fresh air experiences.,21.068682,105.881847
+51,Seafood Harbor Central - Ha,Ha Noi,food,5.0,62805,1.1,0.73,"food,local,culture",Authentic local cuisine destination loved by food enthusiasts.,21.071458,105.847067
+52,Traditional Kitchen Old Town - Ha,Ha Noi,food,4.5,259533,1.4,0.3,"food,local,culture",Authentic local cuisine destination loved by food enthusiasts.,21.068654,105.897407
+53,Misty Hills Central - Ha,Ha Noi,nature,4.5,46107,4.4,0.63,"nature,adventure,photography",Scenic natural spot ideal for hiking and fresh air experiences.,21.037685,105.920995
+54,Bamboo Grove Central - Ha,Ha Noi,nature,5.0,121803,4.0,0.72,"nature,adventure,photography",Scenic natural spot ideal for hiking and fresh air experiences.,21.100506,105.916828
+55,Modern Plaza Old Town - Ha,Ha Noi,shopping,4.8,470395,1.3,0.62,"shopping,souvenir,local","Bustling market area for souvenirs, crafts, and local products.",21.068784,105.908578
+56,Cocktail Harbor Old Town - Ha,Ha Noi,nightlife,4.2,428596,2.5,0.8,"nightlife,entertainment,social","Vibrant evening venue with music, drinks, and city atmosphere.",20.986019,105.827936
+57,Sunrise Peak Central - Ha,Ha Noi,nature,3.7,60623,3.1,0.45,"nature,adventure,photography",Scenic natural spot ideal for hiking and fresh air experiences.,21.014879,105.827141
+58,Paragliding Point - Ha,Ha Noi,adventure,4.1,366881,5.3,0.84,"adventure,thrill,nature",Thrilling outdoor activity for adrenaline seekers and explorers.,21.09987,105.777325
+59,Heritage Shop Street - Ha,Ha Noi,shopping,4.6,494268,1.7,0.9,"shopping,souvenir,local","Bustling market area for souvenirs, crafts, and local products.",21.101049,105.841243
+60,Fusion Bistro Central - Ha,Ha Noi,food,3.5,193096,1.7,0.54,"food,local,culture",Authentic local cuisine destination loved by food enthusiasts.,21.057163,105.838891
+61,Cultural Pavilion Central - Ha,Ha Noi,museum,4.9,101560,2.3,0.71,"museum,culture,history",Cultural landmark showcasing local history and art collections.,21.05458,105.787632
+62,Craft Village Old Town - Ha,Ha Noi,shopping,4.1,95278,1.1,0.45,"shopping,souvenir,local","Bustling market area for souvenirs, crafts, and local products.",21.000795,105.895997
+63,Souvenir Lane Old Town - Ha,Ha Noi,shopping,4.2,132262,2.7,0.82,"shopping,souvenir,local","Bustling market area for souvenirs, crafts, and local products.",20.956834,105.926507
+64,Night Market Bites - Ha,Ha Noi,food,3.8,66268,2.4,0.31,"food,local,culture",Authentic local cuisine destination loved by food enthusiasts.,20.972881,105.794395
+65,Mountain Lookout Central - Ha,Ha Noi,nature,4.7,121905,4.1,0.42,"nature,adventure,photography",Scenic natural spot ideal for hiking and fresh air experiences.,21.04566,105.893868
+66,Sunrise Peak Premium - Ha,Ha Noi,nature,4.9,28337,3.7,0.7,"nature,adventure,photography",Scenic natural spot ideal for hiking and fresh air experiences.,21.093784,105.834249
+67,Night Market Bites Riverside - Ha,Ha Noi,food,4.5,378855,1.4,0.51,"food,local,culture",Authentic local cuisine destination loved by food enthusiasts.,21.057981,105.903084
+68,Morning Brew Riverside - Ha,Ha Noi,cafe,3.6,86148,1.5,0.75,"cafe,relax,photography",Cozy café perfect for coffee lovers and relaxed mornings.,20.950524,105.841409
+69,Kayak River Tour Old Town - Ha,Ha Noi,adventure,4.7,529781,4.5,0.8,"adventure,thrill,nature",Thrilling outdoor activity for adrenaline seekers and explorers.,21.018178,105.891607
+70,Urban Night Walk Riverside - Ha,Ha Noi,nightlife,4.2,506135,3.0,0.81,"nightlife,entertainment,social","Vibrant evening venue with music, drinks, and city atmosphere.",20.991443,105.910474
+71,Lake View Park Old Town - Ha,Ha Noi,nature,4.4,63927,4.3,0.77,"nature,adventure,photography",Scenic natural spot ideal for hiking and fresh air experiences.,21.002323,105.853289
+72,Sunset Shore Old Town - Ha,Ha Noi,beach,3.9,55605,3.4,0.5,"beach,nature,photography","Beautiful coastal area for swimming, sunbathing, and water activities.",21.043885,105.915017
+73,Garden Sip Central - Da,Da Nang,cafe,4.1,41221,0.9,0.69,"cafe,relax,photography",Cozy café perfect for coffee lovers and relaxed mornings.,16.012852,108.198375
+74,Jungle Trek - Da,Da Nang,adventure,4.1,247573,3.2,0.47,"adventure,thrill,nature",Thrilling outdoor activity for adrenaline seekers and explorers.,16.080634,108.181243
+75,Blue Lagoon Riverside - Da,Da Nang,beach,4.2,86714,3.4,0.51,"beach,nature,photography","Beautiful coastal area for swimming, sunbathing, and water activities.",16.011286,108.237605
+76,Coral Bay Riverside - Da,Da Nang,beach,3.8,249266,5.0,0.45,"beach,nature,photography","Beautiful coastal area for swimming, sunbathing, and water activities.",16.051872,108.238134
+77,Rooftop Jazz Club Central - Da,Da Nang,nightlife,3.8,255318,2.5,0.31,"nightlife,entertainment,social","Vibrant evening venue with music, drinks, and city atmosphere.",16.059862,108.16609
+78,Garden Sip Premium - Da,Da Nang,cafe,4.5,121411,1.9,0.83,"cafe,relax,photography",Cozy café perfect for coffee lovers and relaxed mornings.,15.990814,108.124162
+79,Late Night Bistro Old Town - Da,Da Nang,nightlife,4.9,330932,2.7,0.48,"nightlife,entertainment,social","Vibrant evening venue with music, drinks, and city atmosphere.",16.112276,108.140454
+80,Misty Hills Old Town - Da,Da Nang,nature,4.5,19420,3.7,0.41,"nature,adventure,photography",Scenic natural spot ideal for hiking and fresh air experiences.,16.104183,108.27406
+81,Botanical Garden - Da,Da Nang,nature,4.4,146295,4.3,0.85,"nature,adventure,photography",Scenic natural spot ideal for hiking and fresh air experiences.,16.01051,108.205812
+82,Jungle Trek Premium - Da,Da Nang,adventure,4.0,767113,6.0,0.73,"adventure,thrill,nature",Thrilling outdoor activity for adrenaline seekers and explorers.,16.071941,108.240614
+83,Seafood Harbor Premium - Da,Da Nang,food,3.9,396254,1.1,0.69,"food,local,culture",Authentic local cuisine destination loved by food enthusiasts.,15.999445,108.187563
+84,Rock Climbing Wall - Da,Da Nang,adventure,3.9,392720,3.2,0.9,"adventure,thrill,nature",Thrilling outdoor activity for adrenaline seekers and explorers.,15.985789,108.159548
+85,Urban Night Walk Central - Da,Da Nang,nightlife,3.8,322895,2.2,0.4,"nightlife,entertainment,social","Vibrant evening venue with music, drinks, and city atmosphere.",16.016901,108.144958
+86,La Viet Coffee Premium - Da,Da Nang,cafe,4.4,107993,1.6,0.5,"cafe,relax,photography",Cozy café perfect for coffee lovers and relaxed mornings.,15.994297,108.232388
+87,Souvenir Lane Riverside - Da,Da Nang,shopping,3.6,283105,2.0,0.33,"shopping,souvenir,local","Bustling market area for souvenirs, crafts, and local products.",16.043525,108.173771
+88,Sky Lounge Bar - Da,Da Nang,nightlife,4.8,220022,3.9,0.7,"nightlife,entertainment,social","Vibrant evening venue with music, drinks, and city atmosphere.",16.126526,108.282132
+89,Urban Night Walk - Da,Da Nang,nightlife,4.2,500088,3.5,0.76,"nightlife,entertainment,social","Vibrant evening venue with music, drinks, and city atmosphere.",16.120972,108.151238
+90,Heritage Shop Street - Da,Da Nang,shopping,4.0,246420,1.7,0.77,"shopping,souvenir,local","Bustling market area for souvenirs, crafts, and local products.",16.111637,108.174969
+91,Rock Climbing Wall Old Town - Da,Da Nang,adventure,3.6,726818,2.1,0.48,"adventure,thrill,nature",Thrilling outdoor activity for adrenaline seekers and explorers.,15.992947,108.245808
+92,Garden Sip Old Town - Da,Da Nang,cafe,4.3,84165,0.6,0.74,"cafe,relax,photography",Cozy café perfect for coffee lovers and relaxed mornings.,16.054159,108.192927
+93,Cong Caphe Premium - Da,Da Nang,cafe,3.9,101987,0.7,0.92,"cafe,relax,photography",Cozy café perfect for coffee lovers and relaxed mornings.,16.051954,108.126819
+94,Local Pho House Premium - Da,Da Nang,food,4.1,338798,1.0,0.46,"food,local,culture",Authentic local cuisine destination loved by food enthusiasts.,16.109025,108.140354
+95,Sunrise Peak Old Town - Da,Da Nang,nature,4.6,187853,2.9,0.59,"nature,adventure,photography",Scenic natural spot ideal for hiking and fresh air experiences.,16.0516,108.197755
+96,Cable Car Adventure Central - Da,Da Nang,adventure,4.4,552219,2.8,0.82,"adventure,thrill,nature",Thrilling outdoor activity for adrenaline seekers and explorers.,15.996241,108.13337
+97,Local Artisan Mall Riverside - Nha,Nha Trang,shopping,3.9,140075,2.6,0.51,"shopping,souvenir,local","Bustling market area for souvenirs, crafts, and local products.",12.25271,109.276524
+98,Canyon Trek Old Town - Nha,Nha Trang,adventure,4.0,714742,3.9,0.83,"adventure,thrill,nature",Thrilling outdoor activity for adrenaline seekers and explorers.,12.219154,109.265956
+99,Seafood Harbor Riverside - Nha,Nha Trang,food,4.7,250787,1.4,0.33,"food,local,culture",Authentic local cuisine destination loved by food enthusiasts.,12.277953,109.229536
+100,Weekend Fair Central - Nha,Nha Trang,shopping,3.7,259694,2.9,0.98,"shopping,souvenir,local","Bustling market area for souvenirs, crafts, and local products.",12.211919,109.132758
+101,Kayak River Tour Riverside - Nha,Nha Trang,adventure,3.7,629123,2.1,0.91,"adventure,thrill,nature",Thrilling outdoor activity for adrenaline seekers and explorers.,12.313993,109.128673
+102,Night Bazaar Riverside - Nha,Nha Trang,nightlife,3.6,463176,2.8,0.53,"nightlife,entertainment,social","Vibrant evening venue with music, drinks, and city atmosphere.",12.266697,109.20208
+103,Coastal Promenade Riverside - Nha,Nha Trang,beach,3.9,9410,4.5,0.78,"beach,nature,photography","Beautiful coastal area for swimming, sunbathing, and water activities.",12.204781,109.153098
+104,Misty Hills - Nha,Nha Trang,nature,4.8,199326,3.9,0.61,"nature,adventure,photography",Scenic natural spot ideal for hiking and fresh air experiences.,12.26984,109.261248
+105,Morning Brew - Nha,Nha Trang,cafe,4.1,68452,1.0,0.47,"cafe,relax,photography",Cozy café perfect for coffee lovers and relaxed mornings.,12.224728,109.225788
+106,War Remnants Exhibit Central - Nha,Nha Trang,museum,4.1,30350,2.4,0.78,"museum,culture,history",Cultural landmark showcasing local history and art collections.,12.238427,109.210005
+107,Fusion Bistro Premium - Nha,Nha Trang,food,3.5,290947,1.4,0.86,"food,local,culture",Authentic local cuisine destination loved by food enthusiasts.,12.302994,109.225118
+108,Fine Arts Gallery Old Town - Nha,Nha Trang,museum,3.9,65293,3.0,0.97,"museum,culture,history",Cultural landmark showcasing local history and art collections.,12.26925,109.189794
+109,Live Music Venue Old Town - Nha,Nha Trang,nightlife,3.9,547393,3.0,0.7,"nightlife,entertainment,social","Vibrant evening venue with music, drinks, and city atmosphere.",12.25077,109.275531
+110,Sky Lounge Bar Old Town - Nha,Nha Trang,nightlife,4.8,243906,2.0,0.84,"nightlife,entertainment,social","Vibrant evening venue with music, drinks, and city atmosphere.",12.314576,109.262399
+111,Rock Climbing Wall Central - Nha,Nha Trang,adventure,3.8,786553,5.2,0.43,"adventure,thrill,nature",Thrilling outdoor activity for adrenaline seekers and explorers.,12.1989,109.237592
+112,Fine Arts Gallery - Nha,Nha Trang,museum,3.6,60492,2.7,0.56,"museum,culture,history",Cultural landmark showcasing local history and art collections.,12.179826,109.26224
+113,Blue Lagoon Central - Nha,Nha Trang,beach,4.3,52637,2.5,0.98,"beach,nature,photography","Beautiful coastal area for swimming, sunbathing, and water activities.",12.243736,109.262858
+114,Contemporary Art Space Old Town - Nha,Nha Trang,museum,4.0,58684,2.6,0.38,"museum,culture,history",Cultural landmark showcasing local history and art collections.,12.312863,109.139221
+115,Traditional Kitchen Riverside - Nha,Nha Trang,food,4.1,241771,1.1,0.49,"food,local,culture",Authentic local cuisine destination loved by food enthusiasts.,12.178574,109.175674
+116,Urban Night Walk Old Town - Nha,Nha Trang,nightlife,4.1,531183,3.3,0.77,"nightlife,entertainment,social","Vibrant evening venue with music, drinks, and city atmosphere.",12.234236,109.215827
+117,Hidden Cove Central - Nha,Nha Trang,beach,4.7,169778,2.3,0.94,"beach,nature,photography","Beautiful coastal area for swimming, sunbathing, and water activities.",12.20715,109.182027
+118,History Museum - Nha,Nha Trang,museum,3.7,59893,3.0,0.46,"museum,culture,history",Cultural landmark showcasing local history and art collections.,12.244807,109.178883
+119,Surf Spot Old Town - Nha,Nha Trang,beach,3.7,153967,5.0,0.59,"beach,nature,photography","Beautiful coastal area for swimming, sunbathing, and water activities.",12.174643,109.194996
+120,Souvenir Lane - Nha,Nha Trang,shopping,4.2,361905,1.7,0.97,"shopping,souvenir,local","Bustling market area for souvenirs, crafts, and local products.",12.295672,109.132597
