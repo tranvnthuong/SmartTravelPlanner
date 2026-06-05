@@ -24,6 +24,13 @@ function categoryLabel(cat) {
 
 $(document).ready(function () {
 
+    window.addEventListener('pageshow', function(event) {
+        if (event.persisted) {
+            $("#loadingOverlay").addClass("d-none");
+            $("#submitBtn").prop("disabled", false);
+        }
+    });
+
     const validateForm = () => {
         const form = $("#tripForm");
         const interests = form.find("input[name='interests']:checked").length;
