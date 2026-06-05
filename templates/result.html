@@ -44,8 +44,10 @@
         <div class="col-6 col-md-3">
             <div class="dash-card">
                 <div class="dash-icon bg-success-subtle text-success"><i class="bi bi-wallet2"></i></div>
-                <div>
-                    <small class="text-muted" id="budgetLabel">{{ _('result.your_budget') }}</small>
+                <div class="d-flex flex-column gap-1">
+                    <div class="d-flex flex-column gap-0">
+                        <small class="text-muted" id="budgetLabel">{{ _('result.your_budget') }}</small>
+                    </div>
                     <h5 class="mb-0 text-success fw-bold" id="displayBudget" data-orig="{{ plan.budget }}">{{ "{:,.0f}".format(plan.budget) }} ₫</h5>
                 </div>
             </div>
@@ -53,8 +55,10 @@
         <div class="col-6 col-md-3">
             <div class="dash-card">
                 <div class="dash-icon bg-warning-subtle text-warning"><i class="bi bi-graph-up-arrow"></i></div>
-                <div>
-                    <small class="text-muted" id="predictedLabel">{{ _('result.predicted_total') }}</small>
+                <div class="d-flex flex-column gap-1">
+                    <div class="d-flex flex-column gap-0">
+                        <small class="text-muted" id="predictedLabel">{{ _('result.predicted_total') }}</small>
+                    </div>
                     <h5 class="mb-0 text-warning fw-bold" id="displayPredicted" data-orig="{{ plan.predicted_total_cost }}">{{ "{:,.0f}".format(plan.predicted_total_cost) }} ₫</h5>
                 </div>
             </div>
@@ -62,8 +66,10 @@
         <div class="col-6 col-md-3">
             <div class="dash-card">
                 <div class="dash-icon bg-info-subtle text-info"><i class="bi bi-pin-map"></i></div>
-                <div>
-                    <small class="text-muted" id="attractionsLabel">{{ _('result.attractions_cost') }}</small>
+                <div class="d-flex flex-column gap-1">
+                    <div class="d-flex flex-column gap-0">
+                        <small class="text-muted" id="attractionsLabel">{{ _('result.attractions_cost') }}</small>
+                    </div>
                     <h5 class="mb-0 text-info fw-bold" id="displayAttractions" data-orig="{{ plan.planned_attraction_cost }}">{{ "{:,.0f}".format(plan.planned_attraction_cost) }} ₫</h5>
                 </div>
             </div>
@@ -174,7 +180,7 @@
                     <div class="timeline-content card border-0 shadow-sm transition-all">
                         <div class="card-body">
                             <div class="rainy-warning-badge alert alert-danger py-1 px-2 border-0 mb-2 small d-none">
-                                <i class="bi bi-exclamation-octagon-fill me-1"></i> Rủi ro ngoài trời khi mưa! Khuyến nghị đổi sang điểm trú ẩn trong nhà.
+                                <i class="bi bi-exclamation-octagon-fill me-1"></i> {{ _('result.rain_warning') }}
                             </div>
                             
                             <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
@@ -247,9 +253,9 @@
                 budgetChartInstance = new Chart(ctxBudget, {
                     type: 'bar',
                     data: {
-                        labels: ['Ngân sách đặt ra', 'Dự kiến chi tiêu'],
+                        labels: ["{{ _('result.budget_set') }}", "{{ _('result.expected_spending') }}"],
                         datasets: [{
-                            label: 'Số tiền (₫)',
+                            label: "{{ _('result.amount_vnd') }}",
                             data: adjustedBudgetData,
                             backgroundColor: ['#198754', '#ffc107'],
                             borderRadius: 6
@@ -354,9 +360,27 @@
                     
                     if (labelEl) {
                         if (size > 1) {
-                            labelEl.innerHTML = `${item.baseLabel} <span class="badge bg-secondary">Tính trên 1 người</span>`;
+                            labelEl.innerText = item.baseLabel;
+
+                            // Xóa badge cũ nếu có
+                            labelEl.nextElementSibling?.classList.contains('split-badge') &&
+                                labelEl.nextElementSibling.remove();
+
+                            // Tạo badge mới
+                            const badge = document.createElement('small');
+                            badge.className = 'badge bg-secondary split-badge';
+                            badge.textContent = "{{ _('result.per_person') }}";
+                            badge.style.fontSize = '0.6rem';
+
+
+                            // Chèn ngay sau <small>
+                            labelEl.insertAdjacentElement('afterend', badge);
                         } else {
                             labelEl.innerText = item.baseLabel;
+
+                            // Xóa badge khi về 1 người
+                            labelEl.nextElementSibling?.classList.contains('split-badge') &&
+                                labelEl.nextElementSibling.remove();
                         }
                     }
                 }

@@ -315,6 +315,7 @@ body {
 
 .chart-card {
     border-radius: var(--card-radius);
+    padding: 15px;
 }
 
 /* Travel cards */

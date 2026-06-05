@@ -46,10 +46,13 @@ def generate_travel_plan(
             "error_params": {"city": city},
         }
 
+    # Tính toán chi phí quy đổi cho 1 người để đưa vào các mô hình ML (vì ML vốn train cho 1 người)
+    per_person_budget = float(budget) / max(1, int(num_people))
+
     recommender = AttractionRecommender(city_df)
     recommended = recommender.recommend(
         interests=interests,
-        total_budget=float(budget),
+        total_budget=per_person_budget,
         num_days=int(num_days),
         style=style,
         city=city,
@@ -57,7 +60,7 @@ def generate_travel_plan(
     )
 
     clusterer = get_clusterer()
-    persona = clusterer.predict_persona(interests, float(budget), int(num_days), style)
+    persona = clusterer.predict_persona(interests, per_person_budget, int(num_days), style)
 
     lat, lon = resolve_city_center(city)
     optimizer = ItineraryOptimizer()
@@ -77,11 +80,15 @@ def generate_travel_plan(
     )
     num_places = sum(len(day["slots"]) for day in itinerary)
 
+    # Tương tự, quy đổi chi phí dự kiến các điểm tham quan về 1 người
+    per_person_planned_cost = planned_cost / max(1, int(num_people))
+
     predictor = get_budget_predictor()
-    # Nếu mô hình Predictor của bạn sau này nâng cấp nhận thêm num_people, hãy truyền vào predictor.predict()
-    predicted_cost = predictor.predict(
-        interests, float(budget), int(num_days), style, planned_cost, num_places
+    predicted_cost_per_person = predictor.predict(
+        interests, per_person_budget, int(num_days), style, per_person_planned_cost, num_places
     )
+    # Nhân ngược lại để lấy tổng dự đoán cho cả nhóm
+    predicted_cost = predicted_cost_per_person * int(num_people)
 
     trip_score = compute_trip_score(itinerary, float(budget), predicted_cost, persona)
 

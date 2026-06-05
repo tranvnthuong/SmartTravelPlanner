@@ -103,6 +103,11 @@ MESSAGES = {
     "result.duration": "Thời lượng:",
     "result.hours": "giờ",
     "result.score": "Điểm",
+    "result.rain_warning": "Rủi ro ngoài trời khi mưa! Khuyến nghị đổi sang điểm trú ẩn trong nhà.",
+    "result.per_person": "Tính trên 1 người",
+    "result.budget_set": "Ngân sách đặt ra",
+    "result.expected_spending": "Dự kiến chi tiêu",
+    "result.amount_vnd": "Số tiền (đ)",
 
     # Charts
     "chart.your_budget": "Ngân sách",
@@ -133,6 +138,9 @@ MESSAGES = {
     # Budget warnings
     "budget.over": "Chi phí dự đoán ({cost:,.0f} VND) vượt ngân sách. Hãy chọn phong cách Tiết kiệm hoặc giảm số ngày.",
     "budget.near": "Bạn sắp chạm trần ngân sách. Nên dự phòng thêm.",
+
+    # flash
+    "flash.random_trip": "🎲 AI đã chọn ngẫu nhiên chuyến đi tới {city} cho {people} người trong {days} ngày!",
 
     "rain_enabled": "Chế độ trời mưa đang bật",
     "rain_description" : "Các điểm tham quan ngoài trời rủi ro cao đã được cảnh báo màu đỏ. Bạn nên ưu tiên các điểm trong nhà!",

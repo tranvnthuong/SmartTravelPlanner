@@ -124,6 +124,38 @@ def set_language_route(lang_code):
     return _response_with_lang_cookie(resp)
 
 
+@app.route("/result")
+def result():
+
+    plan = session.get("current_plan")
+
+    if not plan:
+        flash(translate("error.not_found"), "warning")
+        return redirect(url_for("index"))
+
+    plan = localize_plan(plan)
+
+    interests_labels = ", ".join(
+        translate(f"interest.{i}")
+        for i in plan.get("interests", [])
+    )
+
+    return render_template(
+        "result.html",
+        plan=plan,
+        num_people=plan.get("num_people", 1),
+        interests_labels=interests_labels,
+        category_breakdown_json=json.dumps(
+            plan["category_breakdown"]
+        ),
+        budget_chart_json=json.dumps({
+            "budget": plan["budget"],
+            "predicted": plan["predicted_total_cost"],
+            "planned_attractions": plan["planned_attraction_cost"],
+        }),
+    )
+
+
 @app.route("/")
 def index():
     """Landing page with trip planning form."""
@@ -140,8 +172,10 @@ def index():
     return _response_with_lang_cookie(resp)
 
 
-@app.route("/generate-plan", methods=["POST"])
+@app.route("/generate-plan", methods=["GET", "POST"])
 def generate_plan():
+    if request.method == "GET":
+        return redirect(url_for("index"))
     """Process form and render personalized itinerary."""
     errors, data = validate_plan_form(request.form)
     if errors:
@@ -184,26 +218,9 @@ def generate_plan():
         plan["trip_score"],
     )
 
-    # Lưu lại lịch trình vào Session để các tính năng nâng cao sử dụng
     session["current_plan"] = plan
-
-    interests_labels = ", ".join(translate(f"interest.{i}") for i in data["interests"])
-
-    resp = make_response(
-        render_template(
-            "result.html",
-            plan=plan,
-            num_people=data["num_people"],  # THÊM MỚI: Truyền ra ngoài template HTML hiển thị nếu cần
-            interests_labels=interests_labels,
-            category_breakdown_json=json.dumps(plan["category_breakdown"]),
-            budget_chart_json=json.dumps({
-                "budget": data["budget"],
-                "predicted": plan["predicted_total_cost"],
-                "planned_attractions": plan["planned_attraction_cost"],
-            }),
-        )
-    )
-    return _response_with_lang_cookie(resp)
+    
+    return redirect(url_for("result"))
 
 
 @app.route("/recommendations", methods=["POST"])
@@ -270,21 +287,19 @@ def surprise_me():
         save_trip(random_city, random_days, random_budget, random_style, random_interests, plan["persona"], plan["predicted_total_cost"], plan["trip_score"])
         session["current_plan"] = plan
 
-        flash(f"🎲 AI đã chọn ngẫu nhiên chuyến đi tới {random_city} cho {random_people} người trong {random_days} ngày!", "success")
-        
-        interests_labels = ", ".join(translate(f"interest.{i}") for i in random_interests)
-        return render_template(
-            "result.html",
-            plan=plan,
-            num_people=random_people,  # THÊM MỚI
-            interests_labels=interests_labels,
-            category_breakdown_json=json.dumps(plan["category_breakdown"]),
-            budget_chart_json=json.dumps({
-                "budget": random_budget,
-                "predicted": plan["predicted_total_cost"],
-                "planned_attractions": plan["planned_attraction_cost"],
-            }),
+        flash(
+            translate(
+                "flash.random_trip",
+                city=random_city,
+                people=random_people,
+                days=random_days,
+            ),
+            "success",
         )
+        
+        session["current_plan"] = plan
+        return redirect(url_for("result"))
+    
     except Exception as exc:
         logger.exception("Surprise me plan failed")
         flash("Có lỗi xảy ra khi quay số chuyến đi ngẫu nhiên.", "danger")

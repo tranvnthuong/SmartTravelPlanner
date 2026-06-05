@@ -23,11 +23,21 @@ function categoryLabel(cat) {
 }
 
 $(document).ready(function () {
-    $("#tripForm").on("submit", function () {
-        const city = $("select[name='city']").val();
-        const interests = $("input[name='interests']:checked").length;
-        if (!city || interests === 0) {
-            return true;
+
+    const validateForm = () => {
+        const form = $("#tripForm");
+        const interests = form.find("input[name='interests']:checked").length;
+        return !!form.find("select[name='city']").val() && interests > 0;
+    }
+
+    $("#tripForm").on("submit", function (e) {
+        if (!validateForm()) {
+            e.preventDefault();
+            Toast.fire({
+                icon: "warning",
+                title: t("preview.select_city"),
+            });
+            return false;
         }
         $("#loadingOverlay").removeClass("d-none");
         $("#loadingTitle").text(t("form.loading.title"));
@@ -37,9 +47,7 @@ $(document).ready(function () {
 
     $("#previewBtn").on("click", function (e) {
         e.preventDefault();
-        const form = $("#tripForm");
-        const interests = form.find("input[name='interests']:checked").length;
-        if (!form.find("select[name='city']").val() || interests === 0) {
+        if (!validateForm()) {
             $("#previewPanel").html(
                 '<p class="text-danger"><i class="bi bi-exclamation-circle"></i> ' +
                     escapeHtml(t("preview.select_city")) +

@@ -46,6 +46,7 @@ class UserClusterer:
         features = self.build_feature_vector(interests, budget, num_days, style)
         scaled = self.scaler.transform(features)
         cluster_id = int(self.model.predict(scaled)[0])
+
         return self.label_map.get(cluster_id, TRAVELER_TYPES[cluster_id % 4])
 
     @staticmethod
@@ -56,12 +57,12 @@ class UserClusterer:
         interest_set = {i.lower() for i in interests}
 
         if style == "luxury" or daily > 2_000_000:
-            return "Luxury Traveler"
+            return "luxury_traveler"
         if "food" in interest_set and len(interest_set) <= 3:
-            return "Foodie"
+            return "foodie"
         if style == "budget" or daily < 500_000:
-            return "Backpacker"
-        return "Explorer"
+            return "backpacker"
+        return "explorer"
 
     @staticmethod
     def train_synthetic_kmeans(n_samples=500, random_state=42):
@@ -102,17 +103,18 @@ class UserClusterer:
         for cid in range(4):
             mask = labels == cid
             cluster = X[mask]
-            avg_budget = cluster[:, 7].mean()  # daily budget index
-            food_score = cluster[:, 3].mean()  # food interest index
-            luxury_score = (cluster[:, 9] == 2).mean()  # style luxury
 
-            if luxury_score > 0.4 or avg_budget > 2.5e6:
-                label_map[cid] = "Luxury Traveler"
+            avg_daily_budget = cluster[:, 10].mean()  # daily_budget
+            food_score = cluster[:, 3].mean()
+            luxury_score = (cluster[:, 9] == 2).mean()
+
+            if luxury_score > 0.7 or avg_daily_budget > 2_500_000:
+                label_map[cid] = "luxury_traveler"
             elif food_score > 0.5:
-                label_map[cid] = "Foodie"
-            elif avg_budget < 8e5:
-                label_map[cid] = "Backpacker"
+                label_map[cid] = "foodie"
+            elif avg_daily_budget < 700_000:
+                label_map[cid] = "backpacker"
             else:
-                label_map[cid] = "Explorer"
-
+                label_map[cid] = "explorer"
+        print("LABEL MAP:", label_map)
         return kmeans, scaler, label_map

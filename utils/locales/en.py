@@ -105,6 +105,11 @@ MESSAGES = {
     "result.duration": "Duration:",
     "result.hours": "hours",
     "result.score": "Score",
+    "result.rain_warning": "Outdoor risk during rain! It is recommended to switch to an indoor shelter.",
+    "result.per_person": "Per person",
+    "result.budget_set": "Budget set",
+    "result.expected_spending": "Expected spending",
+    "result.amount_vnd": "Amount (VND)",
 
     # Charts
     "chart.your_budget": "Your Budget",
@@ -135,6 +140,9 @@ MESSAGES = {
     # Budget warnings
     "budget.over": "Predicted cost ({cost:,.0f} VND) exceeds your budget. Consider Budget style or fewer days.",
     "budget.near": "You are very close to your budget limit. Plan extra buffer.",
+
+    # flash
+    "flash.random_trip": "🎲 AI randomly selected a trip to {city} for {people} people over {days} days!",
 
     "rain_enabled": "Rain mode is enabled",
     "rain_description": "High-risk outdoor attractions have been marked in red. You should prioritize indoor attractions instead!",
