@@ -6,9 +6,10 @@ import json
 import logging
 import os
 import sys
+import random  # Import thêm phục vụ cho tính năng Random chuyến đi ngẫu nhiên
 from pathlib import Path
 
-from flask import Flask, flash, jsonify, make_response, redirect, render_template, request, url_for
+from flask import Flask, flash, jsonify, make_response, redirect, render_template, request, url_for, session
 
 # Ensure project root is on path
 ROOT = Path(__file__).resolve().parent
@@ -48,6 +49,7 @@ def validate_plan_form(form):
     errors = []
     city = (form.get("city") or "").strip()
     num_days = form.get("num_days", type=int)
+    num_people = form.get("num_people", default=1, type=int)  # THÊM MỚI: Lấy số người đi du lịch
     budget = form.get("budget", type=float)
     style = (form.get("style") or "normal").strip().lower()
     interests = form.getlist("interests")
@@ -59,6 +61,10 @@ def validate_plan_form(form):
 
     if num_days is None or num_days < 1 or num_days > 14:
         errors.append(translate("error.days_range"))
+
+    # THÊM MỚI: Validate số người đi du lịch
+    if num_people is None or num_people < 1:
+        errors.append("Số người tham gia chuyến đi phải lớn hơn hoặc bằng 1.")
 
     if budget is None or budget < 500_000:
         errors.append(translate("error.budget_min"))
@@ -76,6 +82,7 @@ def validate_plan_form(form):
     cleaned = {
         "city": city,
         "num_days": num_days,
+        "num_people": num_people,  # THÊM MỚI
         "budget": budget,
         "style": style,
         "interests": interests,
@@ -144,9 +151,11 @@ def generate_plan():
 
     seed = request.form.get("regenerate_seed", 0, type=int)
     try:
+        # Bổ sung tham số num_people vào hàm generator (nếu model ML của bạn có hỗ trợ tính toán theo quy mô nhóm)
         plan = generate_travel_plan(
             city=data["city"],
             num_days=data["num_days"],
+            num_people=data["num_people"],  # THÊM MỚI
             budget=data["budget"],
             interests=data["interests"],
             style=data["style"],
@@ -163,6 +172,7 @@ def generate_plan():
         flash(plan["error"], "warning")
         return redirect(url_for("index"))
 
+    # Bạn có thể cần cập nhật lại cấu trúc hàm save_trip trong utils/database.py nếu muốn lưu cả số người vào DB
     save_trip(
         data["city"],
         data["num_days"],
@@ -174,12 +184,16 @@ def generate_plan():
         plan["trip_score"],
     )
 
+    # Lưu lại lịch trình vào Session để các tính năng nâng cao sử dụng
+    session["current_plan"] = plan
+
     interests_labels = ", ".join(translate(f"interest.{i}") for i in data["interests"])
 
     resp = make_response(
         render_template(
             "result.html",
             plan=plan,
+            num_people=data["num_people"],  # THÊM MỚI: Truyền ra ngoài template HTML hiển thị nếu cần
             interests_labels=interests_labels,
             category_breakdown_json=json.dumps(plan["category_breakdown"]),
             budget_chart_json=json.dumps({
@@ -218,6 +232,141 @@ def recommendations_api():
         return jsonify({"success": False, "errors": [str(exc)]}), 500
 
 
+# =====================================================================
+# CHỨC NĂNG MỚI LẠ 1: "SURPRISE ME!" - QUAY SỐ CHỌN CHUYẾN ĐI NGẪU NHIÊN
+# =====================================================================
+@app.route("/surprise-me", methods=["GET"])
+def surprise_me():
+    """Tự động tạo ra một bộ thông số ngẫu nhiên hợp lý và tính toán lịch trình ngay lập tức."""
+    random_city = random.choice(VALID_CITIES)
+    random_days = random.randint(2, 5)  # Thường đi ngẫu nhiên từ 2-5 ngày là đẹp nhất
+    random_people = random.randint(1, 4)  # THÊM MỚI: Random số người từ 1 đến 4 người
+    random_style = random.choice(VALID_STYLES)
+    
+    # Random từ 1 đến 3 sở thích
+    num_interests = random.randint(1, 3)
+    random_interests = random.sample(VALID_INTERESTS, num_interests)
+    
+    # Tính toán mức ngân sách giả định ngẫu nhiên phù hợp với phong cách và quy mô số người
+    if random_style == "budget":
+        random_budget = random_days * random_people * random.randint(600000, 1000000)
+    elif random_style == "luxury":
+        random_budget = random_days * random_people * random.randint(3000000, 6000000)
+    else:
+        random_budget = random_days * random_people * random.randint(1200000, 2500000)
+
+    try:
+        plan = generate_travel_plan(
+            city=random_city,
+            num_days=random_days,
+            num_people=random_people,  # THÊM MỚI
+            budget=random_budget,
+            interests=random_interests,
+            style=random_style,
+            regenerate_seed=random.randint(1, 999),
+        )
+        plan = localize_plan(plan)
+        
+        save_trip(random_city, random_days, random_budget, random_style, random_interests, plan["persona"], plan["predicted_total_cost"], plan["trip_score"])
+        session["current_plan"] = plan
+
+        flash(f"🎲 AI đã chọn ngẫu nhiên chuyến đi tới {random_city} cho {random_people} người trong {random_days} ngày!", "success")
+        
+        interests_labels = ", ".join(translate(f"interest.{i}") for i in random_interests)
+        return render_template(
+            "result.html",
+            plan=plan,
+            num_people=random_people,  # THÊM MỚI
+            interests_labels=interests_labels,
+            category_breakdown_json=json.dumps(plan["category_breakdown"]),
+            budget_chart_json=json.dumps({
+                "budget": random_budget,
+                "predicted": plan["predicted_total_cost"],
+                "planned_attractions": plan["planned_attraction_cost"],
+            }),
+        )
+    except Exception as exc:
+        logger.exception("Surprise me plan failed")
+        flash("Có lỗi xảy ra khi quay số chuyến đi ngẫu nhiên.", "danger")
+        return redirect(url_for("index"))
+
+
+# =====================================================================
+# CHỨC NĂNG MỚI LẠ 2: CÔNG CỤ CHIA TIỀN NHÓM (GROUP BUDGET SPLITTER)
+# =====================================================================
+@app.route("/budget-splitter", methods=["POST"])
+def budget_splitter():
+    """Hỗ trợ nhập số người và tự tính toán phân bổ chi phí chi tiết theo đầu người từ kết quả ML."""
+    try:
+        num_people = request.form.get("num_people", type=int)
+        if not num_people or num_people < 1:
+            return jsonify({"success": False, "message": "Số người tham gia phải lớn hơn 0"}), 400
+
+        plan = session.get("current_plan")
+        if not plan:
+            return jsonify({"success": False, "message": "Không tìm thấy lịch trình hiện tại để chia tiền."}), 404
+
+        predicted_total = plan.get("predicted_total_cost", 0)
+        category_breakdown = plan.get("category_breakdown", {})
+
+        # Phân rã tiền theo từng người
+        per_person_total = predicted_total / num_people
+        per_person_breakdown = {category: (value / num_people) for category, value in category_breakdown.items()}
+
+        return jsonify({
+            "success": True,
+            "num_people": num_people,
+            "total_cost": predicted_total,
+            "per_person_total": per_person_total,
+            "per_person_breakdown": per_person_breakdown
+        })
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
+
+
+# =====================================================================
+# CHỨC NĂNG MỚI LẠ 3: CHẾ ĐỘ TỐI ƯU HÓA LỊCH TRÌNH "THỜI TIẾT XẤU" (RAINY MODE)
+# =====================================================================
+@app.route("/toggle-rainy-mode", methods=["POST"])
+def toggle_rainy_mode():
+    """Bỏ các địa điểm ngoài trời (nature, adventure), ưu tiên địa điểm trong nhà (museum, cafe, food)."""
+    try:
+        plan = session.get("current_plan")
+        if not plan:
+            return jsonify({"success": False, "message": "Vui lòng tạo một lịch trình trước."}), 404
+
+        # Giả lập bộ lọc thông minh: Nếu kích hoạt Rainy Mode, AI sẽ tự động lọc hoặc đưa ra cảnh báo 
+        # hoán đổi các hoạt động ngoài trời (nature, adventure) sang các hoạt động trong nhà.
+        original_recommended = plan.get("recommended", [])
+        rainy_recommended = []
+
+        for item in original_recommended:
+            # Tạo bản sao sâu để chỉnh sửa nội dung hiển thị hoặc gắn nhãn cảnh báo thời tiết
+            new_item = item.copy()
+            # Ví dụ kiểm tra nếu địa điểm thuộc nhóm thám hiểm/thiên nhiên
+            if any(x in str(item).lower() for x in ["nature", "adventure", "outdoor", "thác", "núi", "rừng"]):
+                new_item["note"] = "⚠️ Khuyến nghị đổi sang bảo tàng/quán cafe do trời mưa lớn!"
+                new_item["status_rain"] = "outdoor_risk"
+            else:
+                new_item["note"] = "✅ An toàn (Địa điểm trong nhà/Mái che)"
+                new_item["status_rain"] = "indoor_safe"
+            rainy_recommended.append(new_item)
+
+        plan["recommended"] = rainy_recommended
+        session["current_plan"] = plan
+
+        return jsonify({
+            "success": True,
+            "message": "Đã kích hoạt chế độ bộ lọc thời tiết mưa lớn thành công!",
+            "updated_recommended": rainy_recommended
+        })
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
+
+
+# =====================================================================
+# HẾT PHẦN MỞ RỘNG - GIỮ NGUYÊN CÁC HÀM XỬ LÝ LỖI GỐC
+# =====================================================================
 @app.errorhandler(404)
 def not_found(e):
     flash(translate("error.not_found"), "warning")

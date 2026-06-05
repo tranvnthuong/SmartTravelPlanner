@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block title %}{{ _('index.title') }}{% endblock %}
+{% block title %}Hệ thống Lập Kế Hoạch Du Lịch Thông Minh{% endblock %}
 
 {% block content %}
 <section class="hero-section text-white">
@@ -8,10 +8,10 @@
             <div class="col-lg-7">
                 <span class="badge hero-badge mb-3">{{ _('index.badge') }}</span>
                 <h1 class="display-4 fw-bold mb-3">{{ _('index.hero.title') }}</h1>
-                <p class="lead hero-sub">{{ _('index.hero.subtitle') }}</p>
+                <p class="lead hero-sub">{{ _('index.hero.title') }}</p>
                 <div class="d-flex flex-wrap gap-3 mt-4">
                     <div class="stat-pill"><i class="bi bi-geo-alt"></i> {{ _('index.stat.cities') }}</div>
-                    <div class="stat-pill"><i class="bi bi-pin-map"></i> {{ _('index.stat.places') }}</div>
+                    <div class="stat-pill"><i class="bi bi-pin-map"></i>  {{ _('index.stat.places') }}</div>
                     <div class="stat-pill"><i class="bi bi-cpu"></i> {{ _('index.stat.no_api') }}</div>
                 </div>
             </div>
@@ -45,7 +45,7 @@
                             <input type="hidden" name="regenerate_seed" id="regenerateSeed" value="0">
 
                             <div class="row g-3">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label class="form-label fw-semibold">{{ _('form.city') }}</label>
                                     <select name="city" class="form-select" required>
                                         <option value="">{{ _('form.city.placeholder') }}</option>
@@ -56,7 +56,11 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label fw-semibold">{{ _('form.days') }}</label>
-                                    <input type="number" name="num_days" class="form-select" min="1" max="14" value="3" required>
+                                    <input type="number" name="num_days" class="form-control" min="1" max="14" value="3" required>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label fw-semibold">{{ _('form.number.of.people') }}</label>
+                                    <input type="number" name="num_people" class="form-control" min="1" max="50" value="1" required>
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label fw-semibold">{{ _('form.style') }}</label>
@@ -83,13 +87,24 @@
                                 </div>
                             </div>
 
-                            <div class="d-flex flex-wrap gap-2 mt-4">
-                                <button type="submit" class="btn btn-primary btn-lg px-4" id="submitBtn">
-                                    <i class="bi bi-magic"></i> {{ _('form.submit') }}
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary" id="previewBtn">
-                                    <i class="bi bi-eye"></i> {{ _('form.preview') }}
-                                </button>
+                            <div class="row g-2 mt-4">
+                                <div class="col-6 col-md-4">
+                                    <button type="submit" class="btn btn-primary btn-lg w-100 py-2.5 h-100 fw-semibold d-flex align-items-center justify-content-center gap-2" id="submitBtn">
+                                        <i class="bi bi-magic"></i> {{ _('form.submit') }}
+                                    </button>
+                                </div>
+                                
+                                <div class="col-6 col-md-4">
+                                    <a href="{{ url_for('surprise_me') }}" class="btn btn-warning btn-lg text-dark w-100 py-2.5 h-100 fw-semibold d-flex align-items-center justify-content-center gap-2" id="surpriseBtn">
+                                        <i class="bi bi-dice-5-fill"></i> {{ _('form.random') }}
+                                    </a>
+                                </div>
+
+                                <div class="col-12 col-md-4">
+                                    <button type="button" class="btn btn-outline-secondary btn-lg w-100 py-2.5 h-100 fw-semibold d-flex align-items-center justify-content-center gap-2" id="previewBtn">
+                                        <i class="bi bi-eye"></i> {{ _('form.preview') }}
+                                    </button>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -144,9 +159,9 @@
                 </div>
             </div>
         </div>
-        {% if stats.total_trips > 0 %}
+        {% if stats and stats.total_trips > 0 %}
         <p class="text-center text-muted mt-4 small">
-            <i class="bi bi-graph-up"></i> {{ _('features.stats', count=stats.total_trips) }}
+            <i class="bi bi-graph-up"></i> Hệ thống đã khởi tạo thành công {{ _('features.stats', count=stats.total_trips) }} chuyến đi cho người dùng.
         </p>
         {% endif %}
     </div>

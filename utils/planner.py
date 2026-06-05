@@ -30,6 +30,7 @@ def generate_travel_plan(
     budget,
     interests,
     style,
+    num_people=1,  # THÊM MỚI: Nhận tham số số người từ app.py (mặc định là 1)
     regenerate_seed=0,
 ):
     """
@@ -68,14 +69,16 @@ def generate_travel_plan(
         regenerate_seed=regenerate_seed,
     )
 
+    # Tính toán chi phí vé/tham quan cơ sở (Có thể nhân với num_people nếu estimated_cost là giá vé đơn lẻ cho 1 người)
     planned_cost = sum(
-        slot["place"]["estimated_cost"]
+        slot["place"]["estimated_cost"] * int(num_people)  # CẬP NHẬT: Nhân với số lượng người
         for day in itinerary
         for slot in day["slots"]
     )
     num_places = sum(len(day["slots"]) for day in itinerary)
 
     predictor = get_budget_predictor()
+    # Nếu mô hình Predictor của bạn sau này nâng cấp nhận thêm num_people, hãy truyền vào predictor.predict()
     predicted_cost = predictor.predict(
         interests, float(budget), int(num_days), style, planned_cost, num_places
     )
@@ -114,6 +117,7 @@ def generate_travel_plan(
     return {
         "city": city,
         "num_days": int(num_days),
+        "num_people": int(num_people),  # THÊM MỚI: Trả về để lưu trữ và hiển thị ngoài giao diện
         "budget": float(budget),
         "style": style,
         "interests": interests,

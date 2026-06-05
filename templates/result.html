@@ -22,10 +22,14 @@
 
 <div class="container py-4">
     {% if plan.budget_warning %}
-    <div class="alert alert-warning border-0 shadow-sm">
-        <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ plan.budget_warning }}
+    <div class="alert alert-warning border-0 shadow-sm" id="mainBudgetWarning">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i><span class="warning-text">{{ plan.budget_warning }}</span>
     </div>
     {% endif %}
+
+    <div class="alert alert-info border-0 shadow-sm d-none" id="rainyWeatherAlert">
+        <i class="bi bi-cloud-rain-heavy-fill me-2"></i> <strong>Chế độ trời mưa đang bật:</strong> Các điểm tham quan ngoài trời rủi ro cao đã được cảnh báo màu đỏ. Bạn nên ưu tiên các điểm trong nhà!
+    </div>
 
     <div class="row g-3 mb-4">
         <div class="col-6 col-md-3">
@@ -41,8 +45,8 @@
             <div class="dash-card">
                 <div class="dash-icon bg-success-subtle text-success"><i class="bi bi-wallet2"></i></div>
                 <div>
-                    <small class="text-muted">{{ _('result.your_budget') }}</small>
-                    <h5 class="mb-0">{{ "{:,.0f}".format(plan.budget) }} ₫</h5>
+                    <small class="text-muted" id="budgetLabel">{{ _('result.your_budget') }}</small>
+                    <h5 class="mb-0 text-success fw-bold" id="displayBudget" data-orig="{{ plan.budget }}">{{ "{:,.0f}".format(plan.budget) }} ₫</h5>
                 </div>
             </div>
         </div>
@@ -50,8 +54,8 @@
             <div class="dash-card">
                 <div class="dash-icon bg-warning-subtle text-warning"><i class="bi bi-graph-up-arrow"></i></div>
                 <div>
-                    <small class="text-muted">{{ _('result.predicted_total') }}</small>
-                    <h5 class="mb-0">{{ "{:,.0f}".format(plan.predicted_total_cost) }} ₫</h5>
+                    <small class="text-muted" id="predictedLabel">{{ _('result.predicted_total') }}</small>
+                    <h5 class="mb-0 text-warning fw-bold" id="displayPredicted" data-orig="{{ plan.predicted_total_cost }}">{{ "{:,.0f}".format(plan.predicted_total_cost) }} ₫</h5>
                 </div>
             </div>
         </div>
@@ -59,8 +63,8 @@
             <div class="dash-card">
                 <div class="dash-icon bg-info-subtle text-info"><i class="bi bi-pin-map"></i></div>
                 <div>
-                    <small class="text-muted">{{ _('result.attractions_cost') }}</small>
-                    <h5 class="mb-0">{{ "{:,.0f}".format(plan.planned_attraction_cost) }} ₫</h5>
+                    <small class="text-muted" id="attractionsLabel">{{ _('result.attractions_cost') }}</small>
+                    <h5 class="mb-0 text-info fw-bold" id="displayAttractions" data-orig="{{ plan.planned_attraction_cost }}">{{ "{:,.0f}".format(plan.planned_attraction_cost) }} ₫</h5>
                 </div>
             </div>
         </div>
@@ -69,38 +73,66 @@
     <div class="row g-4 mb-4">
         <div class="col-lg-5">
             <div class="card chart-card border-0 shadow-sm h-100">
-                <div class="card-body">
-                    <h5 class="card-title fw-bold">{{ _('result.budget_analysis') }}</h5>
-                    <canvas id="budgetChart" height="220"></canvas>
+                <!-- Đã fix chiều cao cố định và thẻ div con tương đối cho Chart.js v4 không bị tràn -->
+                <div class="card-body d-flex flex-column" style="height: 320px; position: relative;">
+                    <h5 class="card-title fw-bold mb-3">{{ _('result.budget_analysis') }}</h5>
+                    <div class="flex-grow-1" style="position: relative; height: 100%;">
+                        <canvas id="budgetChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-lg-4">
             <div class="card chart-card border-0 shadow-sm h-100">
-                <div class="card-body">
-                    <h5 class="card-title fw-bold">{{ _('result.category_breakdown') }}</h5>
-                    <canvas id="categoryChart" height="220"></canvas>
+                <!-- Đã fix chiều cao cố định và thẻ div con tương đối cho Chart.js v4 không bị tràn -->
+                <div class="card-body d-flex flex-column" style="height: 320px; position: relative;">
+                    <h5 class="card-title fw-bold mb-3">{{ _('result.category_breakdown') }}</h5>
+                    <div class="flex-grow-1" style="position: relative; height: 100%;">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-lg-3">
             <div class="card chart-card border-0 shadow-sm h-100">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title fw-bold">{{ _('result.actions') }}</h5>
-                    <form action="{{ url_for('generate_plan') }}" method="POST" class="mt-auto">
-                        <input type="hidden" name="city" value="{{ plan.city }}">
-                        <input type="hidden" name="num_days" value="{{ plan.num_days }}">
-                        <input type="hidden" name="budget" value="{{ plan.budget }}">
-                        <input type="hidden" name="style" value="{{ plan.style }}">
-                        {% for i in plan.interests %}
-                        <input type="hidden" name="interests" value="{{ i }}">
-                        {% endfor %}
-                        <input type="hidden" name="regenerate_seed" value="{{ (plan.regenerate_seed or 0) + 17 }}">
-                        <button type="submit" class="btn btn-outline-primary w-100 mb-2">
-                            <i class="bi bi-shuffle"></i> {{ _('result.regenerate') }}
-                        </button>
-                    </form>
-                    <a href="{{ url_for('index') }}" class="btn btn-primary w-100">{{ _('result.plan_another') }}</a>
+                <div class="card-body d-flex flex-column justify-content-between">
+                    <div>
+                        <h5 class="card-title fw-bold mb-3">{{ _('result.actions') }}</h5>
+                        
+                        <div class="form-check form-switch p-3 bg-light rounded border mb-3">
+                            <input class="form-check-input style-pointer" type="checkbox" role="switch" id="rainyModeSwitch">
+                            <label class="form-check-label fw-semibold text-secondary style-pointer" for="rainyModeSwitch">
+                                <i class="bi bi-cloud-rain text-primary me-1"></i> Chế độ trời mưa
+                            </label>
+                        </div>
+
+                        <div class="mb-3 p-3 bg-light rounded border">
+                            <label class="form-label small fw-bold text-secondary mb-1"><i class="bi bi-people-fill me-1"></i> Chia phí theo nhóm</label>
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-text bg-white">Đi nhóm:</span>
+                                <input type="number" id="groupSizeInput" class="form-control" min="1" max="50" value="{{ plan.num_people or 1 }}">
+                                <span class="input-group-text bg-white">người</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-2">
+                        <form action="{{ url_for('generate_plan') }}" method="POST">
+                            <input type="hidden" name="city" value="{{ plan.city }}">
+                            <input type="hidden" name="num_days" value="{{ plan.num_days }}">
+                            <input type="hidden" name="budget" value="{{ plan.budget }}">
+                            <input type="hidden" name="style" value="{{ plan.style }}">
+                            <input type="hidden" name="num_people" value="{{ plan.num_people or 1 }}">
+                            {% for i in plan.interests %}
+                            <input type="hidden" name="interests" value="{{ i }}">
+                            {% endfor %}
+                            <input type="hidden" name="regenerate_seed" value="{{ (plan.regenerate_seed or 0) + 17 }}">
+                            <button type="submit" class="btn btn-outline-primary w-100 mb-2">
+                                <i class="bi bi-shuffle"></i> {{ _('result.regenerate') }}
+                            </button>
+                        </form>
+                        <a href="{{ url_for('index') }}" class="btn btn-primary w-100">{{ _('result.plan_another') }}</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -136,22 +168,28 @@
         <div class="timeline">
             {% for slot in day.slots %}
             {% set p = slot.place %}
-            <div class="timeline-item">
-                <div class="timeline-marker"></div>
-                <div class="timeline-content card border-0 shadow-sm">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
-                            <div>
-                                <span class="period-badge">{{ slot.period|t_period }}</span>
-                                <h5 class="mb-1 mt-2">{{ p.name }}</h5>
-                                <span class="category-tag small">{{ p.category|t_category }}</span>
+            <div class="timeline-item-wrapper" data-category="{{ p.category }}" data-name="{{ p.name }}" data-desc="{{ p.description }}">
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content card border-0 shadow-sm transition-all">
+                        <div class="card-body">
+                            <div class="rainy-warning-badge alert alert-danger py-1 px-2 border-0 mb-2 small d-none">
+                                <i class="bi bi-exclamation-octagon-fill me-1"></i> Rủi ro ngoài trời khi mưa! Khuyến nghị đổi sang điểm trú ẩn trong nhà.
                             </div>
-                            <span class="rating-badge"><i class="bi bi-star-fill"></i> {{ p.rating }}</span>
-                        </div>
-                        <p class="text-muted small mt-2 mb-2">{{ p.description }}</p>
-                        <div class="row g-2 small">
-                            <div class="col-auto"><strong>{{ _('result.cost') }}</strong> {{ "{:,.0f}".format(p.estimated_cost) }} ₫</div>
-                            <div class="col-auto"><strong>{{ _('result.duration') }}</strong> {{ p.duration_hours }} {{ _('result.hours') }}</div>
+                            
+                            <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                                <div>
+                                    <span class="period-badge">{{ slot.period|t_period }}</span>
+                                    <h5 class="mb-1 mt-2">{{ p.name }}</h5>
+                                    <span class="category-tag small">{{ p.category|t_category }}</span>
+                                </div>
+                                <span class="rating-badge"><i class="bi bi-star-fill"></i> {{ p.rating }}</span>
+                            </div>
+                            <p class="text-muted small mt-2 mb-2">{{ p.description }}</p>
+                            <div class="row g-2 small">
+                                <div class="col-auto"><strong>{{ _('result.cost') }}</strong> {{ "{:,.0f}".format(p.estimated_cost) }} ₫</div>
+                                <div class="col-auto"><strong>{{ _('result.duration') }}</strong> {{ p.duration_hours }} {{ _('result.hours') }}</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -165,13 +203,195 @@
 
 {% block extra_scripts %}
 <script>
-    const categoryData = {{ category_breakdown_json|safe }};
-    const budgetData = {{ budget_chart_json|safe }};
-    const categoryLabels = {
-        {% for cat in plan.category_breakdown.keys() %}
-        "{{ cat }}": "{{ cat|t_category }}",
-        {% endfor %}
-    };
+    document.addEventListener("DOMContentLoaded", function() {
+        let categoryData = {};
+        let budgetRawData = [];
+
+        try {
+            // Nhận dữ liệu an toàn từ Flask đi vào JavaScript cục bộ
+            categoryData = {{ category_breakdown_json | safe if category_breakdown_json else '{}' }};
+            const rawBudget = {{ budget_chart_json | safe if budget_chart_json else '[]' }};
+
+            if (rawBudget && !Array.isArray(rawBudget)) {
+                budgetRawData = [
+                    parseFloat(rawBudget.budget || rawBudget.budget_set || 0),
+                    parseFloat(rawBudget.predicted || rawBudget.predicted_total_cost || rawBudget.predicted_cost || 0)
+                ];
+            } else {
+                budgetRawData = Array.isArray(rawBudget) ? rawBudget : [];
+            }
+        } catch (e) {
+            console.error("Lỗi parse dữ liệu đồ thị:", e);
+        }
+        
+        const categoryLabels = {};
+        {% if plan and plan.category_breakdown %}
+            {% for cat in plan.category_breakdown.keys() %}
+            categoryLabels["{{ cat }}"] = "{{ cat|t_category }}";
+            {% endfor %}
+        {% endif %}
+
+        // Biến toàn cục trong luồng DOMContentLoaded để quản lý vòng đời biểu đồ ngân sách
+        let budgetChartInstance = null;
+
+        function updateBudgetChart(groupSize) {
+            const ctxBudget = document.getElementById('budgetChart');
+            if (!ctxBudget || !budgetRawData || budgetRawData.length === 0) return;
+
+            const adjustedBudgetData = budgetRawData.map(val => val / groupSize);
+
+            if (budgetChartInstance) {
+                budgetChartInstance.data.datasets[0].data = adjustedBudgetData;
+                budgetChartInstance.update();
+            } else {
+                budgetChartInstance = new Chart(ctxBudget, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Ngân sách đặt ra', 'Dự kiến chi tiêu'],
+                        datasets: [{
+                            label: 'Số tiền (₫)',
+                            data: adjustedBudgetData,
+                            backgroundColor: ['#198754', '#ffc107'],
+                            borderRadius: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: { y: { beginAtZero: true } }
+                    }
+                });
+            }
+        }
+
+        // --- KHỞI TẠO BIỂU ĐỒ TRÒN PHÂN BỔ DANH MỤC ---
+        const ctxCategory = document.getElementById('categoryChart');
+        if (ctxCategory && Object.keys(categoryData).length > 0) {
+            const labels = Object.keys(categoryData).map(key => categoryLabels[key] || key);
+            const values = Object.values(categoryData);
+
+            new Chart(ctxCategory, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: ['#0d6efd', '#6f42c1', '#d63384', '#fd7e14', '#198754', '#0dcaf0', '#ffc107'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 11 } } }
+                    }
+                }
+            });
+        }
+
+        // --- TÍNH NĂNG CHẾ ĐỘ TRỜI MƯA VÀ CHIA PHÍ NHÓM ---
+        const rainySwitch = document.getElementById("rainyModeSwitch");
+        const groupInput = document.getElementById("groupSizeInput");
+        
+        const outdoorCategories = ["nature", "adventure", "sightseeing", "beach", "outdoor"];
+        const outdoorKeywords = ["thác", "núi", "rừng", "hồ", "biển", "đèo", "bản", "suối", "thung lũng", "vườn quốc gia"];
+
+        if (rainySwitch) {
+            rainySwitch.addEventListener("change", function() {
+                const isRainy = this.checked;
+                const items = document.querySelectorAll(".timeline-item-wrapper");
+                const alertBanner = document.getElementById("rainyWeatherAlert");
+
+                if (alertBanner) {
+                    if (isRainy) alertBanner.classList.remove("d-none");
+                    else alertBanner.classList.add("d-none");
+                }
+
+                items.forEach(item => {
+                    const cat = item.getAttribute("data-category") ? item.getAttribute("data-category").toLowerCase() : "";
+                    const name = item.getAttribute("data-name") ? item.getAttribute("data-name").toLowerCase() : "";
+                    const desc = item.getAttribute("data-desc") ? item.getAttribute("data-desc").toLowerCase() : "";
+                    const cardContent = item.querySelector(".timeline-content");
+                    const warningBadge = item.querySelector(".rainy-warning-badge");
+
+                    const isOutdoorCat = outdoorCategories.includes(cat);
+                    const hasOutdoorKeyword = outdoorKeywords.some(keyword => name.includes(keyword) || desc.includes(keyword));
+
+                    if (isOutdoorCat || hasOutdoorKeyword) {
+                        if (cardContent) {
+                            if (isRainy) {
+                                cardContent.classList.add("bg-danger-subtle", "border", "border-danger");
+                                if (warningBadge) warningBadge.classList.remove("d-none");
+                            } else {
+                                cardContent.classList.remove("bg-danger-subtle", "border", "border-danger");
+                                if (warningBadge) warningBadge.classList.add("d-none");
+                            }
+                        }
+                    }
+                });
+            });
+        }
+
+        function renderSplitCosts(size) {
+            const elementsToSplit = [
+                { id: "displayBudget", baseLabel: "{{ _('result.your_budget') }}" },
+                { id: "displayPredicted", baseLabel: "{{ _('result.predicted_total') }}" },
+                { id: "displayAttractions", baseLabel: "{{ _('result.attractions_cost') }}" }
+            ];
+
+            elementsToSplit.forEach(item => {
+                const el = document.getElementById(item.id);
+                const labelId = item.id === "displayBudget" ? "budgetLabel" : (item.id === "displayPredicted" ? "predictedLabel" : "attractionsLabel");
+                const labelEl = document.getElementById(labelId);
+                
+                if (el) {
+                    const originalValue = parseFloat(el.getAttribute("data-orig")) || 0;
+                    const splitValue = originalValue / size;
+                    
+                    el.innerText = splitValue.toLocaleString('vi-VN') + " ₫";
+                    
+                    if (labelEl) {
+                        if (size > 1) {
+                            labelEl.innerHTML = `${item.baseLabel} <span class="badge bg-secondary">Tính trên 1 người</span>`;
+                        } else {
+                            labelEl.innerText = item.baseLabel;
+                        }
+                    }
+                }
+            });
+            
+            const warningBox = document.getElementById("mainBudgetWarning");
+            if (warningBox) {
+                if (size > 1) warningBox.classList.add("d-none");
+                else warningBox.classList.remove("d-none");
+            }
+        }
+
+        if (groupInput) {
+            let initialSize = parseInt(groupInput.value);
+            if (isNaN(initialSize) || initialSize < 1) initialSize = 1;
+            
+            renderSplitCosts(initialSize);
+            updateBudgetChart(initialSize);
+
+            groupInput.addEventListener("input", function() {
+                let size = parseInt(this.value);
+                if (isNaN(size) || size < 1) size = 1;
+
+                renderSplitCosts(size);
+                updateBudgetChart(size);
+            });
+        } else {
+            updateBudgetChart(1);
+        }
+    });
 </script>
-<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+
+<style>
+    .style-pointer { cursor: pointer; }
+    .transition-all { transition: all 0.3s ease-in-out; }
+    .bg-danger-subtle { background-color: #f8d7da !important; }
+</style>
 {% endblock %}
