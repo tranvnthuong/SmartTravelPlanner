@@ -8,10 +8,10 @@
             <div class="col-lg-7">
                 <span class="badge hero-badge mb-3">{{ _('index.badge') }}</span>
                 <h1 class="display-4 fw-bold mb-3">{{ _('index.hero.title') }}</h1>
-                <p class="lead hero-sub">{{ _('index.hero.title') }}</p>
+                <p class="lead hero-sub">{{ _('index.hero.subtitle') }}</p>
                 <div class="d-flex flex-wrap gap-3 mt-4">
-                    <div class="stat-pill"><i class="bi bi-geo-alt"></i> {{ _('index.stat.cities') }}</div>
-                    <div class="stat-pill"><i class="bi bi-pin-map"></i>  {{ _('index.stat.places') }}</div>
+                    <div class="stat-pill"><i class="bi bi-geo-alt"></i> {{ _('index.stat.cities', count=dataset_stats.total_cities) }}</div>
+                    <div class="stat-pill"><i class="bi bi-pin-map"></i> {{ _('index.stat.places', count=dataset_stats.total_places) }}</div>
                     <div class="stat-pill"><i class="bi bi-cpu"></i> {{ _('index.stat.no_api') }}</div>
                 </div>
             </div>

@@ -33,3 +33,24 @@ def get_city_attractions(city, df=None):
     city_lower = city.strip().lower()
     mask = df["city"].str.lower().str.contains(city_lower, na=False)
     return df[mask].copy()
+
+def get_dataset_stats():
+    df = pd.read_csv(DATASET_PATH)
+    return {
+        "total_places": len(df),
+        "total_cities": df["city"].nunique()
+    }
+
+
+def get_available_cities():
+    df = pd.read_csv(DATASET_PATH)
+    cities = (
+        df["city"]
+        .dropna()
+        .astype(str)
+        .str.strip()
+        .unique()
+        .tolist()
+    )
+
+    return sorted(cities)

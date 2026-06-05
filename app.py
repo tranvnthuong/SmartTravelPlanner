@@ -29,6 +29,11 @@ from utils.i18n import (
 )
 from utils.planner import generate_travel_plan
 
+from utils.data_loader import (
+    get_available_cities,
+    get_dataset_stats,
+)
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -36,13 +41,12 @@ app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "smart-travel-planner-dev-key")
 init_language(app)
 
-VALID_CITIES = ["Da Lat", "Ho Chi Minh", "Ha Noi", "Da Nang", "Nha Trang"]
+VALID_CITIES = get_available_cities()
 VALID_STYLES = ["budget", "normal", "luxury"]
 VALID_INTERESTS = [
     "nature", "cafe", "museum", "food",
     "nightlife", "photography", "adventure",
 ]
-
 
 def validate_plan_form(form):
     """Validate user input; return (errors, cleaned_data)."""
@@ -159,14 +163,16 @@ def result():
 @app.route("/")
 def index():
     """Landing page with trip planning form."""
-    stats = get_trip_stats()
+    trip_stats = get_trip_stats()
+    dataset_stats = get_dataset_stats()
     resp = make_response(
         render_template(
             "index.html",
             cities=VALID_CITIES,
             interests=VALID_INTERESTS,
             styles=VALID_STYLES,
-            stats=stats,
+            stats=trip_stats,
+            dataset_stats=dataset_stats,
         )
     )
     return _response_with_lang_cookie(resp)
