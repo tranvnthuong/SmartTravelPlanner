@@ -28,7 +28,7 @@
     {% endif %}
 
     <div class="alert alert-info border-0 shadow-sm d-none" id="rainyWeatherAlert">
-        <i class="bi bi-cloud-rain-heavy-fill me-2"></i> <strong>Chế độ trời mưa đang bật:</strong> Các điểm tham quan ngoài trời rủi ro cao đã được cảnh báo màu đỏ. Bạn nên ưu tiên các điểm trong nhà!
+        <i class="bi bi-cloud-rain-heavy-fill me-2"></i> <strong>{{ _('rain_enabled') }}</strong> {{ _('rain_description') }}
     </div>
 
     <div class="row g-3 mb-4">
@@ -100,18 +100,18 @@
                         <h5 class="card-title fw-bold mb-3">{{ _('result.actions') }}</h5>
                         
                         <div class="form-check form-switch p-3 bg-light rounded border mb-3">
-                            <input class="form-check-input style-pointer" type="checkbox" role="switch" id="rainyModeSwitch">
                             <label class="form-check-label fw-semibold text-secondary style-pointer" for="rainyModeSwitch">
-                                <i class="bi bi-cloud-rain text-primary me-1"></i> Chế độ trời mưa
+                                <i class="bi bi-cloud-rain text-primary me-1"></i> {{ _('rain_mode') }}
                             </label>
+                            <input class="form-check-input style-pointer ms-1 mt-1" type="checkbox" role="switch" id="rainyModeSwitch" style="float: inherit;">
                         </div>
 
                         <div class="mb-3 p-3 bg-light rounded border">
-                            <label class="form-label small fw-bold text-secondary mb-1"><i class="bi bi-people-fill me-1"></i> Chia phí theo nhóm</label>
+                            <label class="form-label small fw-bold text-secondary mb-1"><i class="bi bi-people-fill me-1"></i> {{ _('divide_fees') }}</label>
                             <div class="input-group input-group-sm">
-                                <span class="input-group-text bg-white">Đi nhóm:</span>
+                                <span class="input-group-text bg-white">{{ _('go_in_group') }}:</span>
                                 <input type="number" id="groupSizeInput" class="form-control" min="1" max="50" value="{{ plan.num_people or 1 }}">
-                                <span class="input-group-text bg-white">người</span>
+                                <span class="input-group-text bg-white">{{ _('of_person') }}</span>
                             </div>
                         </div>
                     </div>
@@ -206,7 +206,7 @@
     document.addEventListener("DOMContentLoaded", function() {
         let categoryData = {};
         let budgetRawData = [];
-
+        
         try {
             // Nhận dữ liệu an toàn từ Flask đi vào JavaScript cục bộ
             categoryData = {{ category_breakdown_json | safe if category_breakdown_json else '{}' }};

@@ -48,7 +48,7 @@ MESSAGES = {
     "features.route.desc": "Greedy nearest-neighbor routing keeps stops close and categories diverse.",
     "features.budget.title": "Budget Intelligence",
     "features.budget.desc": "Random Forest predicts total trip cost with smart warnings.",
-    "features.stats": "{count} trips planned so far",
+    "features.stats": "The system has successfully generated {count} trips for users.",
 
     # Styles & interests
     "style.budget": "Budget",
@@ -135,4 +135,11 @@ MESSAGES = {
     # Budget warnings
     "budget.over": "Predicted cost ({cost:,.0f} VND) exceeds your budget. Consider Budget style or fewer days.",
     "budget.near": "You are very close to your budget limit. Plan extra buffer.",
+
+    "rain_enabled": "Rain mode is enabled",
+    "rain_description": "High-risk outdoor attractions have been marked in red. You should prioritize indoor attractions instead!",
+    "rain_mode": "Rain mode",
+    "divide_fees": "Split costs among the group",
+    "go_in_group": "Travel in a group",
+    "of_person": "people"
 }

@@ -46,7 +46,7 @@ MESSAGES = {
     "features.route.desc": "Greedy gần nhất giữ các điểm gần nhau và đa dạng danh mục.",
     "features.budget.title": "Thông minh ngân sách",
     "features.budget.desc": "Random Forest dự đoán tổng chi phí và cảnh báo thông minh.",
-    "features.stats": "Đã lên {count} chuyến đi",
+    "features.stats": "Hệ thống đã khởi tạo thành công {count} chuyến đi cho người dùng.",
 
     # Styles & interests
     "style.budget": "Tiết kiệm",
@@ -133,4 +133,11 @@ MESSAGES = {
     # Budget warnings
     "budget.over": "Chi phí dự đoán ({cost:,.0f} VND) vượt ngân sách. Hãy chọn phong cách Tiết kiệm hoặc giảm số ngày.",
     "budget.near": "Bạn sắp chạm trần ngân sách. Nên dự phòng thêm.",
+
+    "rain_enabled": "Chế độ trời mưa đang bật",
+    "rain_description" : "Các điểm tham quan ngoài trời rủi ro cao đã được cảnh báo màu đỏ. Bạn nên ưu tiên các điểm trong nhà!",
+    "rain_mode": "Chế độ trời mưa",
+    "divide_fees": "Chia phí theo nhóm",
+    "go_in_group": "Đi theo nhóm",
+    "of_person": "người",
 }
