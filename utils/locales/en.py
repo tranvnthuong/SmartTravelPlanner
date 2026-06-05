@@ -16,7 +16,7 @@ MESSAGES = {
     "index.hero.subtitle": "Build day-by-day itineraries with content-based recommendations, KMeans traveler clustering, and Random Forest budget prediction.",
     "index.stat.cities": "5 Cities",
     "index.stat.places": "120+ Places",
-    "index.stat.no_api": "No External API",
+    "index.stat.internal_data": "Internal data",
     "index.ml.title": "ML-Powered",
     "index.ml.tfidf": "TF-IDF Recommendations",
     "index.ml.route": "Greedy Route Optimization",

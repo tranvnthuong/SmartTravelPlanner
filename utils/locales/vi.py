@@ -16,7 +16,7 @@ MESSAGES = {
     "index.hero.subtitle": "Tạo lịch trình từng ngày với gợi ý TF-IDF, phân cụm KMeans và dự đoán ngân sách Random Forest.",
     "index.stat.cities": "{count} thành phố",
     "index.stat.places": "{count} địa điểm",
-    "index.stat.no_api": "Không API ngoài",
+    "index.stat.internal_data": "Dữ liệu nội bộ",
     "index.ml.title": "Nền tảng ML",
     "index.ml.tfidf": "Gợi ý TF-IDF",
     "index.ml.route": "Tối ưu lộ trình Greedy",
