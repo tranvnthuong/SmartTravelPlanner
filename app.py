@@ -8,6 +8,9 @@ import os
 import sys
 import random  # Import thêm phục vụ cho tính năng Random chuyến đi ngẫu nhiên
 from pathlib import Path
+import uuid
+import time
+import threading
 
 from flask import Flask, flash, jsonify, make_response, redirect, render_template, request, url_for, session
 
@@ -36,6 +39,8 @@ from utils.data_loader import (
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+PLAN_STORE = {}
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "smart-travel-planner-dev-key")
@@ -130,9 +135,8 @@ def set_language_route(lang_code):
 
 @app.route("/result")
 def result():
-
-    plan = session.get("current_plan")
-
+    plan_id = session.get("current_plan_id")
+    plan = PLAN_STORE.get(plan_id)
     if not plan:
         flash(translate("error.not_found"), "warning")
         return redirect(url_for("index"))
@@ -224,7 +228,9 @@ def generate_plan():
         plan["trip_score"],
     )
 
-    session["current_plan"] = plan
+    plan_id = str(uuid.uuid4())
+    PLAN_STORE[plan_id] = plan
+    session["current_plan_id"] = plan_id
     
     return redirect(url_for("result"))
 
@@ -291,8 +297,7 @@ def surprise_me():
         plan = localize_plan(plan)
         
         save_trip(random_city, random_days, random_budget, random_style, random_interests, plan["persona"], plan["predicted_total_cost"], plan["trip_score"])
-        session["current_plan"] = plan
-
+        
         flash(
             translate(
                 "flash.random_trip",
@@ -303,7 +308,10 @@ def surprise_me():
             "success",
         )
         
-        session["current_plan"] = plan
+        plan_id = str(uuid.uuid4())
+        PLAN_STORE[plan_id] = plan
+        session["current_plan_id"] = plan_id
+    
         return redirect(url_for("result"))
     
     except Exception as exc:
@@ -323,7 +331,8 @@ def budget_splitter():
         if not num_people or num_people < 1:
             return jsonify({"success": False, "message": "Số người tham gia phải lớn hơn 0"}), 400
 
-        plan = session.get("current_plan")
+        plan_id = session.get("current_plan_id")
+        plan = PLAN_STORE.get(plan_id)
         if not plan:
             return jsonify({"success": False, "message": "Không tìm thấy lịch trình hiện tại để chia tiền."}), 404
 
@@ -352,7 +361,8 @@ def budget_splitter():
 def toggle_rainy_mode():
     """Bỏ các địa điểm ngoài trời (nature, adventure), ưu tiên địa điểm trong nhà (museum, cafe, food)."""
     try:
-        plan = session.get("current_plan")
+        plan_id = session.get("current_plan_id")
+        plan = PLAN_STORE.get(plan_id)
         if not plan:
             return jsonify({"success": False, "message": "Vui lòng tạo một lịch trình trước."}), 404
 
@@ -374,7 +384,7 @@ def toggle_rainy_mode():
             rainy_recommended.append(new_item)
 
         plan["recommended"] = rainy_recommended
-        session["current_plan"] = plan
+        PLAN_STORE[plan_id] = plan
 
         return jsonify({
             "success": True,
@@ -399,7 +409,15 @@ def server_error(e):
     flash(translate("error.server"), "danger")
     return redirect(url_for("index"))
 
+def cleanup_plan_store():
+    while True:
+        time.sleep(1800)  # 30 phút
+        PLAN_STORE.clear()
+        app.logger.info("PLAN_STORE cleared")
 
 if __name__ == "__main__":
     init_db()
+    
+    threading.Thread(target=cleanup_plan_store, daemon=True).start()
+    
     app.run(debug=False, host="0.0.0.0", port=7860)
