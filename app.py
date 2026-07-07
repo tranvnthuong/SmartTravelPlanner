@@ -135,9 +135,10 @@ def set_language_route(lang_code):
 
 @app.route("/result")
 def result():
-    plan_id = session.get("current_plan_id")
+    plan_id = request.args.get("plan_id")
     plan = PLAN_STORE.get(plan_id)
     if not plan:
+        print("No plan found in request or PLAN_STORE.")
         flash(translate("error.not_found"), "warning")
         return redirect(url_for("index"))
 
@@ -230,9 +231,8 @@ def generate_plan():
 
     plan_id = str(uuid.uuid4())
     PLAN_STORE[plan_id] = plan
-    session["current_plan_id"] = plan_id
-    
-    return redirect(url_for("result"))
+        
+    return redirect(url_for("result", plan_id=plan_id))
 
 
 @app.route("/recommendations", methods=["POST"])
@@ -310,9 +310,8 @@ def surprise_me():
         
         plan_id = str(uuid.uuid4())
         PLAN_STORE[plan_id] = plan
-        session["current_plan_id"] = plan_id
     
-        return redirect(url_for("result"))
+        return redirect(url_for("result", plan_id=plan_id))
     
     except Exception as exc:
         logger.exception("Surprise me plan failed")
@@ -331,7 +330,7 @@ def budget_splitter():
         if not num_people or num_people < 1:
             return jsonify({"success": False, "message": "Số người tham gia phải lớn hơn 0"}), 400
 
-        plan_id = session.get("current_plan_id")
+        plan_id = request.args.get("plan_id")
         plan = PLAN_STORE.get(plan_id)
         if not plan:
             return jsonify({"success": False, "message": "Không tìm thấy lịch trình hiện tại để chia tiền."}), 404
@@ -361,7 +360,7 @@ def budget_splitter():
 def toggle_rainy_mode():
     """Bỏ các địa điểm ngoài trời (nature, adventure), ưu tiên địa điểm trong nhà (museum, cafe, food)."""
     try:
-        plan_id = session.get("current_plan_id")
+        plan_id = request.args.get("plan_id")
         plan = PLAN_STORE.get(plan_id)
         if not plan:
             return jsonify({"success": False, "message": "Vui lòng tạo một lịch trình trước."}), 404
