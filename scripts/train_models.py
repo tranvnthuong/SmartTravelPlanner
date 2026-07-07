@@ -31,8 +31,10 @@ def train_and_save():
     out = ROOT / "models" / "trained_models.pkl"
     out.parent.mkdir(parents=True, exist_ok=True)
     joblib.dump(bundle, out)
-    print(f"Models saved to {out}")
     print(f"Budget model metrics: {metrics}")
+    print(f"Cluster label map: {label_map}")
+    print(f"Models saved to {out}")
+    print("Training complete.")
     return bundle
 
 

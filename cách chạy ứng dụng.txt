@@ -1,7 +1,7 @@
 python -m venv venv                  # B1: tạo môi trường ảo
 .\venv\Scripts\activate              # B2: khởi động môi trường ảo
 pip install -r requirements.txt      # B3: cài thư viện cần thiết trong môi trường ảo
-python scripts/generate_dataset.py   # B4: nếu chưa có CSV
+python scripts/generate_dataset.py   # B4: nếu chưa có CSV (Lưu ý: sẽ thay thế CSV cũ!)
 python scripts/train_models.py       # B5: nếu chưa có .pkl
 python app.py                        # B6: chạy ứng dụng
 # B7: truy cập url http://127.0.0.1:5000 trên trình duyệt

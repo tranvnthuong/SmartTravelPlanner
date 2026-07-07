@@ -116,5 +116,4 @@ class UserClusterer:
                 label_map[cid] = "backpacker"
             else:
                 label_map[cid] = "explorer"
-        print("LABEL MAP:", label_map)
         return kmeans, scaler, label_map
