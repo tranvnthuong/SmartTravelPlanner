@@ -12,7 +12,7 @@ import uuid
 import time
 import threading
 
-from flask import Flask, flash, jsonify, make_response, redirect, render_template, request, url_for, session
+from flask import Flask, flash, jsonify, make_response, redirect, render_template, request, url_for
 
 # Ensure project root is on path
 ROOT = Path(__file__).resolve().parent
