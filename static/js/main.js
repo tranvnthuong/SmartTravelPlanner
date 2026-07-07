@@ -70,6 +70,8 @@ $(document).ready(function () {
                 "</p></div>"
         );
 
+        const form = $("#tripForm");
+
         $.ajax({
             url: "/recommendations",
             method: "POST",
