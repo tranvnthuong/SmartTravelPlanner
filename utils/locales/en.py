@@ -36,6 +36,7 @@ MESSAGES = {
     "form.submit": "Generate Itinerary",
     "form.random": "Generate random",
     "form.preview": "Preview Recommendations",
+    "form.preview.title": "Quick Preview",
     "form.preview.hint": "Click \"Preview Recommendations\" to see ML-ranked places.",
     "form.loading.title": "Crafting your itinerary...",
     "form.loading.subtitle": "Running recommendations & route optimization",
@@ -145,7 +146,7 @@ MESSAGES = {
     "flash.random_trip": "🎲 AI randomly selected a trip to {city} for {people} people over {days} days!",
 
     "rain_enabled": "Rain mode is enabled",
-    "rain_description": "High-risk outdoor attractions have been marked in red. You should prioritize indoor attractions instead!",
+    "rain_description": "High-risk outdoor attractions are highlighted in red. You should prioritize indoor attractions!",
     "rain_mode": "Rain mode",
     "divide_fees": "Split costs among the group",
     "go_in_group": "Travel in a group",

@@ -36,6 +36,7 @@ MESSAGES = {
     "form.submit": "Tạo lịch trình",
     "form.random": "Tạo ngẫu nhiên",
     "form.preview": "Xem gợi ý trước",
+    "form.preview.title": "Gợi ý nhanh",
     "form.preview.hint": "Nhấn \"Xem gợi ý trước\" để xem địa điểm được ML xếp hạng.",
     "form.loading.title": "Đang tạo lịch trình...",
     "form.loading.subtitle": "Chạy gợi ý và tối ưu lộ trình",
@@ -143,7 +144,7 @@ MESSAGES = {
     "flash.random_trip": "🎲 AI đã chọn ngẫu nhiên chuyến đi tới {city} cho {people} người trong {days} ngày!",
 
     "rain_enabled": "Chế độ trời mưa đang bật",
-    "rain_description" : "Các điểm tham quan ngoài trời rủi ro cao đã được cảnh báo màu đỏ. Bạn nên ưu tiên các điểm trong nhà!",
+    "rain_description" : "Các điểm tham quan ngoài trời rủi ro cao được cảnh báo màu đỏ. Bạn nên ưu tiên các điểm trong nhà!",
     "rain_mode": "Chế độ trời mưa",
     "divide_fees": "Chia phí theo nhóm",
     "go_in_group": "Đi theo nhóm",

@@ -27,12 +27,8 @@
     </div>
     {% endif %}
 
-    <div class="alert alert-info border-0 shadow-sm d-none" id="rainyWeatherAlert">
-        <i class="bi bi-cloud-rain-heavy-fill me-2"></i> <strong>{{ _('rain_enabled') }}</strong> {{ _('rain_description') }}
-    </div>
-
     <div class="row g-3 mb-4">
-        <div class="col-6 col-md-3">
+        <div class="col-12 col-md-6 col-lg-3">
             <div class="dash-card">
                 <div class="dash-icon bg-primary-subtle text-primary"><i class="bi bi-person-badge"></i></div>
                 <div>
@@ -41,7 +37,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-6 col-md-3">
+        <div class="col-12 col-md-6 col-lg-3">
             <div class="dash-card">
                 <div class="dash-icon bg-success-subtle text-success"><i class="bi bi-wallet2"></i></div>
                 <div class="d-flex flex-column gap-1">
@@ -52,7 +48,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-6 col-md-3">
+
+        <div class="col-12 col-md-6 col-lg-3">
             <div class="dash-card">
                 <div class="dash-icon bg-warning-subtle text-warning"><i class="bi bi-graph-up-arrow"></i></div>
                 <div class="d-flex flex-column gap-1">
@@ -63,7 +60,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-6 col-md-3">
+
+        <div class="col-12 col-md-6 col-lg-3">
             <div class="dash-card">
                 <div class="dash-icon bg-info-subtle text-info"><i class="bi bi-pin-map"></i></div>
                 <div class="d-flex flex-column gap-1">
@@ -79,8 +77,7 @@
     <div class="row g-4 mb-4">
         <div class="col-lg-5">
             <div class="card chart-card border-0 shadow-sm h-100">
-                <!-- Đã fix chiều cao cố định và thẻ div con tương đối cho Chart.js v4 không bị tràn -->
-                <div class="card-body d-flex flex-column" style="height: 320px; position: relative;">
+                <div class="card-body d-flex flex-column">
                     <h5 class="card-title fw-bold mb-3">{{ _('result.budget_analysis') }}</h5>
                     <div class="flex-grow-1" style="position: relative; height: 100%;">
                         <canvas id="budgetChart"></canvas>
@@ -90,8 +87,7 @@
         </div>
         <div class="col-lg-4">
             <div class="card chart-card border-0 shadow-sm h-100">
-                <!-- Đã fix chiều cao cố định và thẻ div con tương đối cho Chart.js v4 không bị tràn -->
-                <div class="card-body d-flex flex-column" style="height: 320px; position: relative;">
+                <div class="card-body d-flex flex-column">
                     <h5 class="card-title fw-bold mb-3">{{ _('result.category_breakdown') }}</h5>
                     <div class="flex-grow-1" style="position: relative; height: 100%;">
                         <canvas id="categoryChart"></canvas>
@@ -145,7 +141,7 @@
     </div>
 
     <h3 class="fw-bold mb-3"><i class="bi bi-star-fill text-warning"></i> {{ _('result.top_recommendations') }}</h3>
-    <div class="row g-3 mb-5">
+    <div class="row g-3 mb-4">
         {% for place in plan.recommended %}
         <div class="col-md-6 col-lg-4">
             <div class="travel-card h-100">
@@ -163,6 +159,10 @@
             </div>
         </div>
         {% endfor %}
+    </div>
+
+    <div class="alert alert-info border-0 shadow-sm d-none mb-4" id="rainyWeatherAlert">
+        <i class="bi bi-cloud-rain-heavy-fill me-2"></i> <strong>{{ _('rain_enabled') }}</strong> {{ _('rain_description') }}
     </div>
 
     <h3 class="fw-bold mb-4"><i class="bi bi-calendar3"></i> {{ _('result.your_itinerary') }}</h3>
@@ -304,41 +304,39 @@
         const outdoorCategories = ["nature", "adventure", "sightseeing", "beach", "outdoor"];
         const outdoorKeywords = ["thác", "núi", "rừng", "hồ", "biển", "đèo", "bản", "suối", "thung lũng", "vườn quốc gia"];
 
-        if (rainySwitch) {
-            rainySwitch.addEventListener("change", function() {
-                const isRainy = this.checked;
-                const items = document.querySelectorAll(".timeline-item-wrapper");
-                const alertBanner = document.getElementById("rainyWeatherAlert");
+        rainySwitch.addEventListener("change", function() {
+            const isRainy = this.checked;
+            const items = document.querySelectorAll(".timeline-item-wrapper");
+            const alertBanner = document.getElementById("rainyWeatherAlert");
 
-                if (alertBanner) {
-                    if (isRainy) alertBanner.classList.remove("d-none");
-                    else alertBanner.classList.add("d-none");
-                }
+            if (alertBanner) {
+                if (isRainy) alertBanner.classList.remove("d-none");
+                else alertBanner.classList.add("d-none");
+            }
 
-                items.forEach(item => {
-                    const cat = item.getAttribute("data-category") ? item.getAttribute("data-category").toLowerCase() : "";
-                    const name = item.getAttribute("data-name") ? item.getAttribute("data-name").toLowerCase() : "";
-                    const desc = item.getAttribute("data-desc") ? item.getAttribute("data-desc").toLowerCase() : "";
-                    const cardContent = item.querySelector(".timeline-content");
-                    const warningBadge = item.querySelector(".rainy-warning-badge");
+            items.forEach(item => {
+                const cat = item.getAttribute("data-category") ? item.getAttribute("data-category").toLowerCase() : "";
+                const name = item.getAttribute("data-name") ? item.getAttribute("data-name").toLowerCase() : "";
+                const desc = item.getAttribute("data-desc") ? item.getAttribute("data-desc").toLowerCase() : "";
+                const cardContent = item.querySelector(".timeline-content");
+                const warningBadge = item.querySelector(".rainy-warning-badge");
 
-                    const isOutdoorCat = outdoorCategories.includes(cat);
-                    const hasOutdoorKeyword = outdoorKeywords.some(keyword => name.includes(keyword) || desc.includes(keyword));
+                const isOutdoorCat = outdoorCategories.includes(cat);
+                const hasOutdoorKeyword = outdoorKeywords.some(keyword => name.includes(keyword) || desc.includes(keyword));
 
-                    if (isOutdoorCat || hasOutdoorKeyword) {
-                        if (cardContent) {
-                            if (isRainy) {
-                                cardContent.classList.add("bg-danger-subtle", "border", "border-danger");
-                                if (warningBadge) warningBadge.classList.remove("d-none");
-                            } else {
-                                cardContent.classList.remove("bg-danger-subtle", "border", "border-danger");
-                                if (warningBadge) warningBadge.classList.add("d-none");
-                            }
+                if (isOutdoorCat || hasOutdoorKeyword) {
+                    if (cardContent) {
+                        if (isRainy) {
+                            cardContent.classList.add("bg-danger-subtle", "border", "border-danger");
+                            if (warningBadge) warningBadge.classList.remove("d-none");
+                        } else {
+                            cardContent.classList.remove("bg-danger-subtle", "border", "border-danger");
+                            if (warningBadge) warningBadge.classList.add("d-none");
                         }
                     }
-                });
+                }
             });
-        }
+        });
 
         function renderSplitCosts(size) {
             const elementsToSplit = [
@@ -393,23 +391,20 @@
             }
         }
 
-        if (groupInput) {
-            let initialSize = parseInt(groupInput.value);
-            if (isNaN(initialSize) || initialSize < 1) initialSize = 1;
-            
-            renderSplitCosts(initialSize);
-            updateBudgetChart(initialSize);
+        let initialSize = parseInt(groupInput.value);
+        if (isNaN(initialSize) || initialSize < 1) initialSize = 1;
+        
+        renderSplitCosts(initialSize);
+        updateBudgetChart(initialSize);
 
-            groupInput.addEventListener("input", function() {
-                let size = parseInt(this.value);
-                if (isNaN(size) || size < 1) size = 1;
+        groupInput.addEventListener("input", function() {
+            let size = parseInt(this.value);
+            if (isNaN(size) || size < 1) size = 1;
 
-                renderSplitCosts(size);
-                updateBudgetChart(size);
-            });
-        } else {
-            updateBudgetChart(1);
-        }
+            renderSplitCosts(size);
+            updateBudgetChart(size);
+        });
+
     });
 </script>
 

@@ -75,10 +75,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     tooltip: {
                         callbacks: {
                             label: function (ctx) {
-                                return (
-                                    new Intl.NumberFormat(locale).format(ctx.raw) + " ₫"
-                                );
-                            },
+                                return new Intl.NumberFormat(locale, {
+                                    maximumFractionDigits: 0
+                                }).format(ctx.raw) + " ₫";
+                            }
                         },
                     },
                 },

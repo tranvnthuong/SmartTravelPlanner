@@ -141,3 +141,23 @@ class AttractionRecommender:
         """Return top-N recommended attractions for a city."""
         scored = self.compute_scores(interests, total_budget, num_days, style, city)
         return scored.head(top_n)
+
+    def recommend(self, interests, total_budget, num_days, style, city, top_n=30, regenerate_seed=0):
+        """Return top-N recommended attractions for a city."""
+        scored = self.compute_scores(interests, total_budget, num_days, style, city)
+
+        if scored.empty:
+            return scored
+
+        if regenerate_seed:
+            pool_size = min(len(scored), max(top_n * 2, 30))
+
+            return (
+                scored
+                .head(pool_size)
+                .sample(n=min(top_n, pool_size), random_state=int(regenerate_seed))
+                .sort_values("recommendation_score", ascending=False)
+                .reset_index(drop=True)
+            )
+
+        return scored.head(top_n).reset_index(drop=True)

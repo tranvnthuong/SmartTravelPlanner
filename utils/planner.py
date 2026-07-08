@@ -50,6 +50,7 @@ def generate_travel_plan(
     per_person_budget = float(budget) / max(1, int(num_people))
 
     recommender = AttractionRecommender(city_df)
+
     recommended = recommender.recommend(
         interests=interests,
         total_budget=per_person_budget,
@@ -57,6 +58,7 @@ def generate_travel_plan(
         style=style,
         city=city,
         top_n=max(int(num_days) * 6, 18),
+        regenerate_seed=regenerate_seed,
     )
 
     clusterer = get_clusterer()

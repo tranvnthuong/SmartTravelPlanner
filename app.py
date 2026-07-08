@@ -41,6 +41,8 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 PLAN_STORE = {}
+PLAN_TTL_SECONDS = 30 * 60
+MAX_PLANS = 500
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "smart-travel-planner-dev-key")
@@ -52,6 +54,26 @@ VALID_INTERESTS = [
     "nature", "cafe", "museum", "food",
     "nightlife", "photography", "adventure",
 ]
+
+def get_plan(plan_id):
+    item = PLAN_STORE.get(plan_id)
+    if not item:
+        return None
+
+    if time.time() - item["created_at"] > PLAN_TTL_SECONDS:
+        PLAN_STORE.pop(plan_id, None)
+        return None
+
+    return item["plan"]
+
+def save_plan(plan, plan_id):
+    if len(PLAN_STORE) >= MAX_PLANS:
+        PLAN_STORE.pop(list(PLAN_STORE.keys())[0], None)
+        
+    PLAN_STORE[plan_id] = {
+        "created_at": time.time(),
+        "plan": plan,
+    }
 
 def validate_plan_form(form):
     """Validate user input; return (errors, cleaned_data)."""
@@ -135,8 +157,7 @@ def set_language_route(lang_code):
 
 @app.route("/result")
 def result():
-    plan_id = request.args.get("plan_id")
-    plan = PLAN_STORE.get(plan_id)
+    plan = get_plan(request.args.get("plan_id"))
     if not plan:
         print("No plan found in request or PLAN_STORE.")
         flash(translate("error.not_found"), "warning")
@@ -196,11 +217,10 @@ def generate_plan():
 
     seed = request.form.get("regenerate_seed", 0, type=int)
     try:
-        # Bổ sung tham số num_people vào hàm generator (nếu model ML của bạn có hỗ trợ tính toán theo quy mô nhóm)
         plan = generate_travel_plan(
             city=data["city"],
             num_days=data["num_days"],
-            num_people=data["num_people"],  # THÊM MỚI
+            num_people=data["num_people"],
             budget=data["budget"],
             interests=data["interests"],
             style=data["style"],
@@ -230,7 +250,7 @@ def generate_plan():
     )
 
     plan_id = str(uuid.uuid4())
-    PLAN_STORE[plan_id] = plan
+    save_plan(plan, plan_id)
         
     return redirect(url_for("result", plan_id=plan_id))
 
@@ -309,7 +329,7 @@ def surprise_me():
         )
         
         plan_id = str(uuid.uuid4())
-        PLAN_STORE[plan_id] = plan
+        save_plan(plan, plan_id)
     
         return redirect(url_for("result", plan_id=plan_id))
     
@@ -330,8 +350,7 @@ def budget_splitter():
         if not num_people or num_people < 1:
             return jsonify({"success": False, "message": "Số người tham gia phải lớn hơn 0"}), 400
 
-        plan_id = request.args.get("plan_id")
-        plan = PLAN_STORE.get(plan_id)
+        plan = get_plan(request.args.get("plan_id"))
         if not plan:
             return jsonify({"success": False, "message": "Không tìm thấy lịch trình hiện tại để chia tiền."}), 404
 
@@ -361,7 +380,7 @@ def toggle_rainy_mode():
     """Bỏ các địa điểm ngoài trời (nature, adventure), ưu tiên địa điểm trong nhà (museum, cafe, food)."""
     try:
         plan_id = request.args.get("plan_id")
-        plan = PLAN_STORE.get(plan_id)
+        plan = get_plan(plan_id)
         if not plan:
             return jsonify({"success": False, "message": "Vui lòng tạo một lịch trình trước."}), 404
 
@@ -383,7 +402,7 @@ def toggle_rainy_mode():
             rainy_recommended.append(new_item)
 
         plan["recommended"] = rainy_recommended
-        PLAN_STORE[plan_id] = plan
+        save_plan(plan, plan_id)
 
         return jsonify({
             "success": True,
@@ -410,9 +429,18 @@ def server_error(e):
 
 def cleanup_plan_store():
     while True:
-        time.sleep(1800)  # 30 phút
-        PLAN_STORE.clear()
-        app.logger.info("PLAN_STORE cleared")
+        time.sleep(1000)
+
+        now = time.time()
+        expired_ids = [
+            plan_id
+            for plan_id, item in PLAN_STORE.items()
+            if now - item["created_at"] > PLAN_TTL_SECONDS
+        ]
+
+        for plan_id in expired_ids:
+            PLAN_STORE.pop(plan_id, None)
+            app.logger.info(f"Cleaned up expired plan: {plan_id}")
 
 if __name__ == "__main__":
     init_db()
